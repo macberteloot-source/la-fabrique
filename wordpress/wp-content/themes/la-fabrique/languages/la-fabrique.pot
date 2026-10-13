@@ -1,0 +1,1066 @@
+# Copyright (C) 2026 La Fabrique (projet de démonstration)
+# This file is distributed under the GNU General Public License v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: La Fabrique 1.0.0\n"
+"Report-Msgid-Bugs-To: bonjour@la-fabrique.test\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: La Fabrique <bonjour@la-fabrique.test>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-10-13T04:59:52+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: la-fabrique\n"
+
+#. Theme Name of the theme
+#: style.css
+msgid "La Fabrique"
+msgstr ""
+
+#. Theme URI of the theme
+#. Author URI of the theme
+#: style.css
+msgid "https://la-fabrique.test/"
+msgstr ""
+
+#. Description of the theme
+#: style.css
+msgid "Thème classique sur mesure pour La Fabrique, torréfacteur (fictif) à Fives, Lille. Hiérarchie de templates PHP, WooCommerce personnalisé par des hooks, recettes de café (avec le plugin fabrique-recettes), animations en JavaScript natif et accessibilité soignée."
+msgstr ""
+
+#. Author of the theme
+#: style.css
+msgid "La Fabrique (projet de démonstration)"
+msgstr ""
+
+#: 404.php:16
+msgid "Lot introuvable"
+msgstr ""
+
+#: 404.php:17
+msgid "Ce grain a roulé sous le comptoir."
+msgstr ""
+
+#: 404.php:18
+msgid "La page demandée n’existe pas, ou plus. Une recherche, ou l’un de ces chemins, devrait vous remettre sur la bonne voie."
+msgstr ""
+
+#: 404.php:21
+msgid "Retour à l’accueil"
+msgstr ""
+
+#: 404.php:23
+msgid "La boutique"
+msgstr ""
+
+#: 404.php:26
+msgid "Les recettes"
+msgstr ""
+
+#. translators: %d : nombre de commentaires.
+#: comments.php:21
+#, php-format
+msgid "%d commentaire"
+msgid_plural "%d commentaires"
+msgstr[0] ""
+msgstr[1] ""
+
+#: comments.php:37
+msgid "Commentaires"
+msgstr ""
+
+#: comments.php:41
+msgid "Les commentaires sont fermés."
+msgstr ""
+
+#: comments.php:47
+msgid "Laisser un commentaire"
+msgstr ""
+
+#: footer.php:17
+msgid "Torréfacteur à Fives, Lille. Petits lots torréfiés le mardi, recettes partagées le reste de la semaine."
+msgstr ""
+
+#: footer.php:22
+msgid "Parcourir"
+msgstr ""
+
+#: footer.php:37
+msgid "L’atelier"
+msgstr ""
+
+#: footer.php:38
+#: page-atelier.php:56
+msgid "Atelier à Fives, Lille"
+msgstr ""
+
+#: footer.php:39
+msgid "Retrait des commandes :"
+msgstr ""
+
+#: footer.php:48
+#: page-atelier.php:76
+msgid "Nous écrire"
+msgstr ""
+
+#: footer.php:50
+msgid "On répond entre deux torréfactions, en général dans la journée."
+msgstr ""
+
+#. translators: %s : année.
+#: footer.php:58
+#, php-format
+msgid "© %s La Fabrique"
+msgstr ""
+
+#: footer.php:63
+msgid "Haut de page"
+msgstr ""
+
+#: header.php:22
+msgid "Aller au contenu"
+msgstr ""
+
+#: header.php:39
+#: inc/setup.php:41
+msgid "Menu principal"
+msgstr ""
+
+#: header.php:56
+#: searchform.php:17
+#: template-parts/panneaux.php:43
+msgid "Rechercher"
+msgstr ""
+
+#: header.php:68
+#: template-parts/panneaux.php:13
+msgid "Menu"
+msgstr ""
+
+#: inc/fabrique.php:47
+msgid "Mercredi, 17 h – 19 h"
+msgstr ""
+
+#: inc/fabrique.php:48
+msgid "Samedi, 10 h – 12 h"
+msgstr ""
+
+#: inc/fabrique.php:107
+msgid "Point bas"
+msgstr ""
+
+#: inc/fabrique.php:112
+msgid "Fin du séchage"
+msgstr ""
+
+#: inc/fabrique.php:117
+msgid "Premier crac"
+msgstr ""
+
+#: inc/fabrique.php:122
+msgid "Sortie"
+msgstr ""
+
+#: inc/fabrique.php:126
+msgid "Séchage"
+msgstr ""
+
+#: inc/fabrique.php:127
+msgid "Maillard"
+msgstr ""
+
+#: inc/fabrique.php:128
+msgid "Développement"
+msgstr ""
+
+#. translators: 1 : minutes, 2 : secondes sur deux chiffres.
+#: inc/fabrique.php:154
+#, php-format
+msgid "%1$d min %2$s"
+msgstr ""
+
+#. translators: %d : nombre de minutes.
+#: inc/recettes.php:86
+#: inc/recettes.php:214
+#, php-format
+msgid "%d min"
+msgstr ""
+
+#. translators: 1 : heures, 2 : minutes sur deux chiffres.
+#: inc/recettes.php:92
+#: inc/recettes.php:218
+#, php-format
+msgid "%1$d h %2$s"
+msgstr ""
+
+#. translators: %d : nombre d'heures.
+#: inc/recettes.php:94
+#: inc/recettes.php:216
+#, php-format
+msgid "%d h"
+msgstr ""
+
+#. translators: %d : nombre de recettes.
+#: inc/recettes.php:203
+#: template-parts/recette/archive.php:36
+#, php-format
+msgid "%d recette"
+msgid_plural "%d recettes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d : nombre de recettes.
+#: inc/recettes.php:205
+#, php-format
+msgid "%d recettes"
+msgstr ""
+
+#: inc/recettes.php:206
+msgid "Pas encore de recette pour cette méthode. Les autres vous attendent."
+msgstr ""
+
+#: inc/recettes.php:207
+msgid "Les recettes n’ont pas pu être chargées. La page complète reste accessible avec ce lien."
+msgstr ""
+
+#: inc/recettes.php:208
+msgid "Chargement des recettes…"
+msgstr ""
+
+#. translators: %s : nom de la méthode.
+#: inc/recettes.php:210
+#, php-format
+msgid "Recettes : %s"
+msgstr ""
+
+#: inc/recettes.php:211
+#: inc/template-tags.php:201
+#: inc/template-tags.php:228
+#: inc/template-tags.php:254
+#: template-parts/recette/archive.php:17
+msgid "Recettes"
+msgstr ""
+
+#: inc/recettes.php:212
+msgid "Afficher plus de recettes"
+msgstr ""
+
+#: inc/setup.php:42
+msgid "Menu du pied de page"
+msgstr ""
+
+#: inc/setup.php:67
+msgid "Recette (3:2)"
+msgstr ""
+
+#. translators: %s : nom du site.
+#: inc/template-tags.php:184
+#, php-format
+msgid "%s, accueil"
+msgstr ""
+
+#: inc/template-tags.php:198
+#: template-parts/contenu/resultat.php:13
+msgid "Boutique"
+msgstr ""
+
+#: inc/template-tags.php:225
+msgid "Accueil"
+msgstr ""
+
+#: inc/template-tags.php:248
+msgid "Recherche"
+msgstr ""
+
+#: inc/template-tags.php:250
+msgid "Page introuvable"
+msgstr ""
+
+#: inc/template-tags.php:259
+#: inc/woocommerce.php:221
+msgid "Fil d’Ariane"
+msgstr ""
+
+#: inc/template-tags.php:277
+msgid "Page précédente"
+msgstr ""
+
+#: inc/template-tags.php:278
+msgid "Page suivante"
+msgstr ""
+
+#: inc/template-tags.php:279
+#: template-parts/contenu/resultat.php:19
+msgid "Page"
+msgstr ""
+
+#: inc/template-tags.php:281
+msgid "Pagination"
+msgstr ""
+
+#. translators: %d : nombre de minutes.
+#: inc/template-tags.php:297
+#, php-format
+msgid "%d minute de lecture"
+msgid_plural "%d minutes de lecture"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/template-tags.php:310
+msgid "Projet de démonstration, marque fictive : La Fabrique n’existe pas, aucune commande n’est expédiée."
+msgstr ""
+
+#: inc/woocommerce.php:105
+msgid "Produit ajouté au panier."
+msgstr ""
+
+#: inc/woocommerce.php:106
+#: inc/woocommerce.php:667
+msgid "Retirer un"
+msgstr ""
+
+#: inc/woocommerce.php:107
+#: inc/woocommerce.php:675
+msgid "Ajouter un"
+msgstr ""
+
+#. translators: %d : nombre d'articles dans le panier.
+#: inc/woocommerce.php:131
+#, php-format
+msgid "%d article"
+msgid_plural "%d articles"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/woocommerce.php:142
+msgid "Mon compte"
+msgstr ""
+
+#: inc/woocommerce.php:142
+msgid "Se connecter"
+msgstr ""
+
+#: inc/woocommerce.php:146
+#: inc/woocommerce.php:709
+msgid "Panier"
+msgstr ""
+
+#: inc/woocommerce.php:176
+msgid "Votre panier"
+msgstr ""
+
+#: inc/woocommerce.php:179
+msgid "Fermer le panier"
+msgstr ""
+
+#: inc/woocommerce.php:225
+msgctxt "fil d’Ariane"
+msgid "Accueil"
+msgstr ""
+
+#: inc/woocommerce.php:248
+msgid "Des cafés torréfiés le mardi, de quoi les préparer, et des coffrets pour les offrir."
+msgstr ""
+
+#: inc/woocommerce.php:268
+msgid "Catégories de la boutique"
+msgstr ""
+
+#: inc/woocommerce.php:271
+msgid "Tout"
+msgstr ""
+
+#: inc/woocommerce.php:408
+msgid "Notes :"
+msgstr ""
+
+#. translators: %s : prix le plus bas.
+#: inc/woocommerce.php:452
+#, php-format
+msgid "<span class=\"lf-prix__des\">dès</span> %s"
+msgstr ""
+
+#: inc/woocommerce.php:528
+msgid "Notes de dégustation"
+msgstr ""
+
+#. translators: %s : date du prochain mardi (jj.mm).
+#: inc/woocommerce.php:547
+#, php-format
+msgid "Torréfié le mardi, expédié sous 48 h. Prochain lot le %s."
+msgstr ""
+
+#. translators: %s : seuil de la livraison offerte, par exemple « 45 € ».
+#: inc/woocommerce.php:555
+#, php-format
+msgid "Livraison Colissimo offerte dès %s."
+msgstr ""
+
+#: inc/woocommerce.php:558
+msgid "Retrait gratuit à l’atelier, à Fives."
+msgstr ""
+
+#: inc/woocommerce.php:594
+msgid "L’histoire de ce café"
+msgstr ""
+
+#: inc/woocommerce.php:597
+msgid "Description"
+msgstr ""
+
+#: inc/woocommerce.php:601
+msgid "Formats"
+msgstr ""
+
+#. translators: %d : nombre d'avis.
+#: inc/woocommerce.php:608
+#, php-format
+msgid "Avis (%d)"
+msgstr ""
+
+#: inc/woocommerce.php:639
+msgid "Vous aimerez aussi"
+msgstr ""
+
+#: inc/woocommerce.php:649
+msgid "Pour aller plus loin"
+msgstr ""
+
+#: inc/woocommerce.php:659
+msgid "Pour aller avec"
+msgstr ""
+
+#: inc/woocommerce.php:710
+msgid "Livraison et paiement"
+msgstr ""
+
+#: inc/woocommerce.php:711
+msgid "Confirmation"
+msgstr ""
+
+#: inc/woocommerce.php:714
+msgid "Étapes de la commande"
+msgstr ""
+
+#: inc/woocommerce.php:744
+msgid "Tableau de bord"
+msgstr ""
+
+#: inc/woocommerce.php:745
+msgid "Commandes"
+msgstr ""
+
+#: inc/woocommerce.php:746
+msgid "Adresses"
+msgstr ""
+
+#: inc/woocommerce.php:747
+msgid "Moyens de paiement"
+msgstr ""
+
+#: inc/woocommerce.php:748
+msgid "Mes informations"
+msgstr ""
+
+#: inc/woocommerce.php:749
+msgid "Se déconnecter"
+msgstr ""
+
+#: inc/woocommerce.php:774
+msgid "Voir le produit"
+msgstr ""
+
+#: inc/woocommerce.php:777
+msgid "Choisir"
+msgstr ""
+
+#: inc/woocommerce.php:779
+msgid "Ajouter"
+msgstr ""
+
+#. translators: %s : nom du produit.
+#: inc/woocommerce.php:794
+#, php-format
+msgid "Choisir le poids et la mouture de « %s »"
+msgstr ""
+
+#. translators: %s : nom du produit.
+#: inc/woocommerce.php:798
+#, php-format
+msgid "Ajouter « %s » au panier"
+msgstr ""
+
+#. translators: %s : nom du produit.
+#: inc/woocommerce.php:801
+#, php-format
+msgid "Voir « %s »"
+msgstr ""
+
+#: inc/woocommerce.php:811
+msgid "Ajouter au panier"
+msgstr ""
+
+#: inc/woocommerce.php:821
+msgid "Confirmer la commande"
+msgstr ""
+
+#: inc/woocommerce.php:831
+msgid "Promo"
+msgstr ""
+
+#: inc/woocommerce.php:843
+msgid "Notre sélection"
+msgstr ""
+
+#: inc/woocommerce.php:844
+msgid "Les plus vendus"
+msgstr ""
+
+#: inc/woocommerce.php:845
+msgid "Les mieux notés"
+msgstr ""
+
+#: inc/woocommerce.php:846
+msgid "Les nouveautés"
+msgstr ""
+
+#: inc/woocommerce.php:847
+msgid "Prix croissant"
+msgstr ""
+
+#: inc/woocommerce.php:848
+msgid "Prix décroissant"
+msgstr ""
+
+#: index.php:20
+msgid "Le journal de l’atelier"
+msgstr ""
+
+#: page-atelier.php:35
+msgid "Une filature de briques, à Fives. Des sheds, une cheminée, un torréfacteur de quinze kilos, et le mardi, une odeur qui fait tourner les têtes dans la rue."
+msgstr ""
+
+#: page-atelier.php:52
+msgid "En pratique"
+msgstr ""
+
+#: page-atelier.php:55
+msgid "Adresse"
+msgstr ""
+
+#: page-atelier.php:59
+#: template-parts/accueil/atelier.php:26
+#: template-parts/produit/degustation.php:59
+msgid "Torréfaction"
+msgstr ""
+
+#. translators: 1 : numéro du lot, 2 : date du prochain mardi (jj.mm).
+#: page-atelier.php:63
+#, php-format
+msgid "Le mardi. Lot n° %1$s en cours, prochain lot le %2$s."
+msgstr ""
+
+#: page-atelier.php:68
+msgid "Retrait des commandes"
+msgstr ""
+
+#: page.php:49
+msgid "Pages de l’article"
+msgstr ""
+
+#. translators: %s : termes recherchés.
+#: search.php:21
+#, php-format
+msgid "Recherche : « %s »"
+msgstr ""
+
+#. translators: %d : nombre de résultats.
+#: search.php:30
+#, php-format
+msgid "%d résultat"
+msgid_plural "%d résultats"
+msgstr[0] ""
+msgstr[1] ""
+
+#: search.php:31
+msgid "Aucun résultat."
+msgstr ""
+
+#: searchform.php:13
+msgid "Rechercher sur le site"
+msgstr ""
+
+#: searchform.php:14
+msgid "Un café, une recette, un moulin…"
+msgstr ""
+
+#: single-recette.php:63
+msgid "L’astuce du barista"
+msgstr ""
+
+#: single-recette.php:77
+msgid "Recette précédente"
+msgstr ""
+
+#: single-recette.php:78
+msgid "Recette suivante"
+msgstr ""
+
+#: single.php:51
+msgid "Article précédent"
+msgstr ""
+
+#: single.php:52
+msgid "Article suivant"
+msgstr ""
+
+#: template-parts/accueil/atelier.php:21
+msgid "L’atelier, à Fives"
+msgstr ""
+
+#: template-parts/accueil/atelier.php:22
+msgid "Une ancienne filature de briques, ses toits en dents de scie, un torréfacteur de quinze kilos et une grande table où l’on goûte tout. Commandez en ligne, passez chercher votre café : il vous attend, emballé, au créneau choisi."
+msgstr ""
+
+#. translators: %s : date du prochain mardi (jj.mm).
+#: template-parts/accueil/atelier.php:30
+#, php-format
+msgid "Le mardi. Prochain lot le %s."
+msgstr ""
+
+#: template-parts/accueil/atelier.php:35
+msgid "Retrait à l’atelier"
+msgstr ""
+
+#: template-parts/accueil/atelier.php:39
+msgid "Livraison"
+msgstr ""
+
+#. translators: %s : seuil de la livraison offerte, par exemple « 45 € ».
+#: template-parts/accueil/atelier.php:43
+#, php-format
+msgid "Colissimo en 48 h, offerte dès %s."
+msgstr ""
+
+#: template-parts/accueil/atelier.php:51
+msgid "Découvrir l’atelier"
+msgstr ""
+
+#: template-parts/accueil/cafes.php:37
+msgid "Nos cafés du moment"
+msgstr ""
+
+#: template-parts/accueil/cafes.php:38
+msgid "Des lots de petits producteurs, torréfiés par quinze kilos. En grains ou moulus pour votre méthode, en 250 g ou en 1 kg."
+msgstr ""
+
+#: template-parts/accueil/cafes.php:39
+msgid "Tous les cafés"
+msgstr ""
+
+#. translators: %s : numéro du lot.
+#: template-parts/accueil/courbe.php:65
+#, php-format
+msgid "Courbe de torréfaction du lot n° %s"
+msgstr ""
+
+#. translators: 1 : nom de l'étape, 2 : durée, 3 : température.
+#: template-parts/accueil/courbe.php:73
+#, php-format
+msgid "%1$s à %2$s, %3$d °C"
+msgstr ""
+
+#: template-parts/accueil/courbe.php:98
+msgid "12 min"
+msgstr ""
+
+#. translators: 1 : numéro du lot, 2 : durée totale, 3 : température de sortie.
+#: template-parts/accueil/courbe.php:128
+#, php-format
+msgid "Lot n° %1$s : la température du grain pendant la torréfaction. Sortie à %2$s, %3$d °C."
+msgstr ""
+
+#: template-parts/accueil/etapes.php:15
+msgid "Le grain vert"
+msgstr ""
+
+#: template-parts/accueil/etapes.php:17
+msgid "Nous choisissons des lots de petits producteurs, goûtés à l’échantillon. Le café arrive cru, vert, et sent le foin."
+msgstr ""
+
+#: template-parts/accueil/etapes.php:20
+msgid "La torréfaction"
+msgstr ""
+
+#: template-parts/accueil/etapes.php:22
+msgid "Le mardi, chaque lot passe dix à douze minutes dans le tambour. On suit la courbe au degré près, l’oreille tendue vers le premier crac."
+msgstr ""
+
+#: template-parts/accueil/etapes.php:25
+msgid "Le repos"
+msgstr ""
+
+#: template-parts/accueil/etapes.php:27
+msgid "Les grains dégazent cinq à sept jours dans leur sac à valve. C’est pendant ce temps que les arômes se posent."
+msgstr ""
+
+#: template-parts/accueil/etapes.php:30
+msgid "La tasse"
+msgstr ""
+
+#: template-parts/accueil/etapes.php:32
+msgid "Chez vous, avec la bonne mouture et la bonne recette. Ou à l’atelier le samedi matin, avec un spéculoos."
+msgstr ""
+
+#: template-parts/accueil/etapes.php:49
+msgid "Du grain vert à votre tasse"
+msgstr ""
+
+#: template-parts/accueil/etapes.php:50
+msgid "Le même grain monte à 210 °C, redescend, se repose, puis rencontre votre eau à 93 °C. Quatre étapes, quatre températures."
+msgstr ""
+
+#. translators: %d : température en degrés Celsius.
+#: template-parts/accueil/etapes.php:82
+#, php-format
+msgid "%d °C."
+msgstr ""
+
+#: template-parts/accueil/hero.php:20
+msgid "Cafés de spécialité torréfiés chaque mardi à Fives, recettes partagées et tasses de quartier."
+msgstr ""
+
+#: template-parts/accueil/hero.php:35
+msgid "Le café,"
+msgstr ""
+
+#: template-parts/accueil/hero.php:36
+msgid "ça se fabrique."
+msgstr ""
+
+#: template-parts/accueil/hero.php:44
+msgid "Choisir un café"
+msgstr ""
+
+#: template-parts/accueil/hero.php:48
+msgid "Lire les recettes"
+msgstr ""
+
+#. translators: %s : numéro du lot.
+#: template-parts/accueil/hero.php:56
+#: template-parts/produit/degustation.php:32
+#, php-format
+msgid "Lot n° %s"
+msgstr ""
+
+#. translators: %s : date du mardi de torréfaction (jj.mm).
+#: template-parts/accueil/hero.php:58
+#, php-format
+msgid "Torréfié le mardi %s"
+msgstr ""
+
+#: template-parts/accueil/recettes.php:32
+msgid "Les dernières recettes"
+msgstr ""
+
+#: template-parts/accueil/recettes.php:33
+msgid "Testées au comptoir avant d’être publiées : la dose, l’eau, la mouture, le temps, et l’astuce qui change tout."
+msgstr ""
+
+#: template-parts/accueil/recettes.php:34
+msgid "Toutes les recettes"
+msgstr ""
+
+#: template-parts/contenu/aucun.php:14
+msgid "Rien ne correspond à cette recherche."
+msgstr ""
+
+#: template-parts/contenu/aucun.php:16
+msgid "Rien à afficher ici pour l’instant."
+msgstr ""
+
+#: template-parts/contenu/aucun.php:20
+msgid "Essayez un nom de café (Beffroi, Wazemmes…), une méthode (espresso, cold brew…) ou un accessoire."
+msgstr ""
+
+#: template-parts/contenu/resultat.php:13
+msgid "Café"
+msgstr ""
+
+#: template-parts/contenu/resultat.php:16
+msgid "Recette"
+msgstr ""
+
+#: template-parts/contenu/resultat.php:22
+msgid "Journal"
+msgstr ""
+
+#: template-parts/panneaux.php:18
+msgid "Fermer le menu"
+msgstr ""
+
+#: template-parts/panneaux.php:21
+msgid "Menu principal (mobile)"
+msgstr ""
+
+#: template-parts/panneaux.php:36
+msgid "Atelier à Fives, Lille. Torréfaction le mardi."
+msgstr ""
+
+#: template-parts/panneaux.php:46
+msgid "Fermer la recherche"
+msgstr ""
+
+#: template-parts/panneaux.php:55
+msgid "Ou parcourir les recettes par méthode"
+msgstr ""
+
+#: template-parts/produit/degustation.php:18
+msgid "Claire"
+msgstr ""
+
+#: template-parts/produit/degustation.php:19
+msgid "Moyenne"
+msgstr ""
+
+#: template-parts/produit/degustation.php:20
+msgid "Moyenne-foncée"
+msgstr ""
+
+#: template-parts/produit/degustation.php:21
+msgid "Foncée"
+msgstr ""
+
+#: template-parts/produit/degustation.php:28
+msgid "Fiche de dégustation"
+msgstr ""
+
+#: template-parts/produit/degustation.php:40
+msgid "Intensité"
+msgstr ""
+
+#. translators: %d : intensité de 1 à 5.
+#: template-parts/produit/degustation.php:50
+#, php-format
+msgid "%d sur 5"
+msgstr ""
+
+#: template-parts/produit/degustation.php:73
+msgid "Origine"
+msgstr ""
+
+#: template-parts/produit/degustation.php:80
+msgid "Procédé"
+msgstr ""
+
+#: template-parts/produit/degustation.php:87
+msgid "Altitude"
+msgstr ""
+
+#. translators: %s : altitude en mètres.
+#: template-parts/produit/degustation.php:91
+#, php-format
+msgid "%s m"
+msgstr ""
+
+#: template-parts/produit/recettes-cafe.php:34
+msgid "Recettes avec ce café"
+msgstr ""
+
+#. translators: %s : nom du café.
+#: template-parts/produit/recettes-cafe.php:38
+#, php-format
+msgid "Ce que nous préparons avec %s au comptoir, pas à pas."
+msgstr ""
+
+#: template-parts/recette/archive.php:20
+msgid "Nos recettes de comptoir, testées et chronométrées : la dose, l’eau, la mouture et le geste. Choisissez une méthode."
+msgstr ""
+
+#: template-parts/recette/cafes.php:20
+msgid "Le café recommandé"
+msgid_plural "Les cafés recommandés"
+msgstr[0] ""
+msgstr[1] ""
+
+#: template-parts/recette/cafes.php:21
+msgid "Ceux que nous utilisons pour cette recette au comptoir. Choisissez la mouture adaptée au moment de commander."
+msgstr ""
+
+#: template-parts/recette/carte.php:59
+#: template-parts/recette/modele-carte.php:22
+msgid "Temps :"
+msgstr ""
+
+#: template-parts/recette/carte.php:62
+#: template-parts/recette/modele-carte.php:23
+msgid "Difficulté :"
+msgstr ""
+
+#: template-parts/recette/carte.php:65
+#: template-parts/recette/modele-carte.php:24
+msgid "Ratio café / eau :"
+msgstr ""
+
+#: template-parts/recette/fiche.php:17
+msgid "Temps"
+msgstr ""
+
+#: template-parts/recette/fiche.php:20
+msgid "Difficulté"
+msgstr ""
+
+#. translators: 1 : grammes de café, 2 : millilitres d'eau.
+#: template-parts/recette/fiche.php:26
+#, php-format
+msgid "%1$s g pour %2$s ml"
+msgstr ""
+
+#: template-parts/recette/fiche.php:28
+msgid "Ratio"
+msgstr ""
+
+#. translators: %d : température de l'eau en degrés Celsius.
+#: template-parts/recette/fiche.php:32
+#: template-parts/recette/fiche.php:34
+msgid "Eau"
+msgstr ""
+
+#. translators: %d : température de l'eau en degrés Celsius.
+#: template-parts/recette/fiche.php:32
+#, php-format
+msgid "%d °C"
+msgstr ""
+
+#: template-parts/recette/fiche.php:34
+msgid "Froide"
+msgstr ""
+
+#: template-parts/recette/fiche.php:37
+msgid "Mouture"
+msgstr ""
+
+#: template-parts/recette/filtres.php:19
+msgid "Filtrer les recettes par méthode"
+msgstr ""
+
+#: template-parts/recette/filtres.php:23
+msgid "Toutes"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Papier"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Papier foncé"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Kraft clair"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Encre (espresso)"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Café torréfié"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Gris"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Brique"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Brique foncée"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Latte"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Café vert"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Blanc cassé"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Petit"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Normal"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Moyen"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Grand"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Titre"
+msgstr ""
+
+#: theme.json
+msgctxt "Font family name"
+msgid "Instrument Serif"
+msgstr ""
+
+#: theme.json
+msgctxt "Font family name"
+msgid "Instrument Sans"
+msgstr ""
+
+#: theme.json
+msgctxt "Space size name"
+msgid "XS"
+msgstr ""
+
+#: theme.json
+msgctxt "Space size name"
+msgid "S"
+msgstr ""
+
+#: theme.json
+msgctxt "Space size name"
+msgid "M"
+msgstr ""
+
+#: theme.json
+msgctxt "Space size name"
+msgid "L"
+msgstr ""
+
+#: theme.json
+msgctxt "Space size name"
+msgid "XL"
+msgstr ""

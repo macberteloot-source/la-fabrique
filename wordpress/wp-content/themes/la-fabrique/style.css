@@ -1,0 +1,23 @@
+/*
+Theme Name:        La Fabrique
+Theme URI:         https://la-fabrique.test/
+Author:            La Fabrique (projet de démonstration)
+Author URI:        https://la-fabrique.test/
+Description:       Thème classique sur mesure pour La Fabrique, torréfacteur (fictif) à Fives, Lille. Hiérarchie de templates PHP, WooCommerce personnalisé par des hooks, recettes de café (avec le plugin fabrique-recettes), animations en JavaScript natif et accessibilité soignée.
+Version:           1.0.0
+Requires at least: 6.6
+Tested up to:      7.1
+Requires PHP:      8.1
+License:           GNU General Public License v2 or later
+License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain:       la-fabrique
+Domain Path:       /languages
+Tags:              e-commerce, blog, custom-logo, custom-menu, editor-style, featured-images, full-width-template, sticky-post, threaded-comments, translation-ready, wide-blocks
+
+La Fabrique, (C) 2026 La Fabrique (marque fictive).
+Ce thème est distribué sous licence GNU GPL v2 ou ultérieure.
+Polices Instrument Sans et Instrument Serif : SIL Open Font License 1.1 (voir assets/fonts).
+
+Les styles du thème sont dans assets/css/ (main.css, woocommerce.css, editeur.css) :
+ce fichier ne sert qu'à déclarer le thème auprès de WordPress.
+*/

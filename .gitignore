@@ -1,0 +1,19 @@
+# Configuration locale et secrets
+.env
+!.env.example
+
+# Dépendances et caches
+vendor/
+node_modules/
+__pycache__/
+*.pyc
+
+# Fichiers générés
+*.zip
+*.log
+
+# Système / éditeurs
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

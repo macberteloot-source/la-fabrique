@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  php:
+    name: PHP ${{ matrix.php }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ["8.1", "8.3"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer
+          coverage: none
+      - name: Syntaxe PHP
+        run: find wordpress -name '*.php' -not -path '*/vendor/*' -print0 | xargs -0 -n1 php -l
+      - name: WordPress Coding Standards
+        if: matrix.php == '8.3'
+        working-directory: wordpress
+        run: |
+          composer global config --no-interaction allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+          composer global require --no-interaction --no-progress wp-coding-standards/wpcs:"^3.1" dealerdirect/phpcodesniffer-composer-installer:"^1.0"
+          "$(composer global config bin-dir --absolute --quiet)/phpcs" --standard=phpcs.xml.dist
+
+  docker:
+    name: docker-compose.yml
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configuration Docker valide
+        working-directory: wordpress
+        run: cp .env.example .env && docker compose config --quiet

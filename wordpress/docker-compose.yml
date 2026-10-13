@@ -1,0 +1,105 @@
+# La Fabrique — environnement de développement : WordPress 7.1 (PHP 8.3 + Apache), MariaDB 11.8, Mailpit.
+#
+#   make up      démarre les conteneurs (crée .env depuis .env.example au besoin)
+#   make setup   installe WordPress, WooCommerce, ACF, le thème, les plugins et les contenus
+#
+# Site : http://localhost:8080 · e-mails : http://localhost:8025
+# Images épinglées sur des versions précises (vérifiées sur Docker Hub le 12/10/2026).
+
+name: la-fabrique
+
+# Variables communes au site et au conteneur WP-CLI (wp-config.php est généré par l'image officielle).
+x-environnement-wordpress: &environnement-wordpress
+  WORDPRESS_DB_HOST: db
+  WORDPRESS_DB_NAME: ${DB_NAME:-fabrique}
+  WORDPRESS_DB_USER: ${DB_USER:-fabrique}
+  WORDPRESS_DB_PASSWORD: ${DB_PASSWORD:-fabrique-dev}
+  WORDPRESS_DEBUG: "1"
+  FABRIQUE_GOOGLE_CLIENT_ID: ${FABRIQUE_GOOGLE_CLIENT_ID:-}
+  FABRIQUE_SMTP_HOST: mailpit
+  FABRIQUE_SMTP_PORT: "1025"
+  WORDPRESS_CONFIG_EXTRA: |
+    define( 'WP_ENVIRONMENT_TYPE', 'local' );
+    define( 'WP_DEBUG_LOG', true );
+    define( 'WP_DEBUG_DISPLAY', false );
+    define( 'FABRIQUE_GOOGLE_CLIENT_ID', getenv_docker( 'FABRIQUE_GOOGLE_CLIENT_ID', '' ) );
+
+# Thème, plugins et mu-plugins du dépôt montés dans le WordPress du volume nommé.
+x-volumes-wordpress: &volumes-wordpress
+  - wordpress:/var/www/html
+  - ./wp-content/themes/la-fabrique:/var/www/html/wp-content/themes/la-fabrique
+  - ./wp-content/plugins/fabrique-recettes:/var/www/html/wp-content/plugins/fabrique-recettes
+  - ./wp-content/plugins/fabrique-boutique:/var/www/html/wp-content/plugins/fabrique-boutique
+  - ./wp-content/mu-plugins:/var/www/html/wp-content/mu-plugins
+
+services:
+  db:
+    image: mariadb:11.8.9
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: ${DB_NAME:-fabrique}
+      MARIADB_USER: ${DB_USER:-fabrique}
+      MARIADB_PASSWORD: ${DB_PASSWORD:-fabrique-dev}
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-racine-dev}
+    volumes:
+      - db:/var/lib/mysql
+    healthcheck:
+      # Script fourni par l'image officielle MariaDB.
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 20s
+
+  wordpress:
+    image: wordpress:7.1.3-php8.3-apache
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+      mailpit:
+        condition: service_started
+    ports:
+      - "${WP_PORT:-8080}:80"
+    environment: *environnement-wordpress
+    volumes: *volumes-wordpress
+
+  # WP-CLI (profil « tools » : lancé à la demande par make setup / seed / test / wp).
+  cli:
+    image: wordpress:cli-2.12.0-php8.3
+    profiles: ["tools"]
+    # Même UID que www-data dans l'image Apache (Debian : 33) ; l'image cli (Alpine) utilise 82 par défaut.
+    user: "33:33"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      <<: *environnement-wordpress
+      HOME: /tmp
+      WP_CLI_CACHE_DIR: /tmp/wp-cli-cache
+      WP: wp
+      WP_URL: ${WP_URL:-http://localhost:8080}
+      WP_ADMIN_USER: ${WP_ADMIN_USER:-admin}
+      WP_ADMIN_PASSWORD: ${WP_ADMIN_PASSWORD:-admin123}
+      WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL:-bonjour@la-fabrique.test}
+    working_dir: /var/www/html
+    volumes:
+      - wordpress:/var/www/html
+      - ./wp-content/themes/la-fabrique:/var/www/html/wp-content/themes/la-fabrique
+      - ./wp-content/plugins/fabrique-recettes:/var/www/html/wp-content/plugins/fabrique-recettes
+      - ./wp-content/plugins/fabrique-boutique:/var/www/html/wp-content/plugins/fabrique-boutique
+      - ./wp-content/mu-plugins:/var/www/html/wp-content/mu-plugins
+      # Scripts d'installation, illustrations et tests, en lecture seule.
+      - .:/opt/fabrique:ro
+
+  mailpit:
+    image: axllent/mailpit:v1.31.1
+    restart: unless-stopped
+    ports:
+      - "${MAILPIT_PORT:-8025}:8025"
+    environment:
+      MP_MAX_MESSAGES: 500
+
+volumes:
+  db:
+  wordpress:

@@ -1,0 +1,87 @@
+/* ==========================================================================
+   La Fabrique — styles de l'éditeur de blocs
+   --------------------------------------------------------------------------
+   Chargée par add_editor_style() : WordPress préfixe ces règles par
+   .editor-styles-wrapper. Les couleurs, polices et tailles viennent de theme.json ;
+   on reprend ici la mise en forme de la prose du site (titres, listes, étapes).
+   ========================================================================== */
+
+:root {
+	--lf-encre: #1B1512;
+	--lf-cafe: #3B2A20;
+	--lf-gris: #6E625A;
+	--lf-brique: #B8502E;
+	--lf-brique-fonce: #93401F;
+	--lf-filet: #CFC2AE;
+}
+
+body {
+	color: var(--lf-encre);
+	font-family: "Instrument Sans", system-ui, sans-serif;
+	font-size: 1.0625rem;
+	line-height: 1.7;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	font-family: "Instrument Serif", Georgia, serif;
+	font-weight: 400;
+	line-height: 1.05;
+	letter-spacing: -0.01em;
+}
+
+.editor-post-title__input,
+.wp-block-post-title {
+	font-family: "Instrument Serif", Georgia, serif;
+	font-size: clamp(2.625rem, 1.5rem + 4.4vw, 5.25rem);
+	font-weight: 400;
+	line-height: 1;
+}
+
+a {
+	color: var(--lf-brique-fonce);
+}
+
+ul.wp-block-list {
+	padding-left: 1.4em;
+}
+
+ul.wp-block-list > li::marker {
+	color: var(--lf-brique);
+}
+
+/* Étapes des recettes : mêmes numéros en italique que sur le site. */
+ol.wp-block-list {
+	padding-left: 0;
+	list-style: none;
+	counter-reset: lf-etape;
+}
+
+ol.wp-block-list > li {
+	position: relative;
+	padding: 0.15rem 0 0.9rem 3.25rem;
+	border-bottom: 1px solid var(--lf-filet);
+	counter-increment: lf-etape;
+}
+
+ol.wp-block-list > li::before {
+	content: counter(lf-etape);
+	position: absolute;
+	top: -0.2rem;
+	left: 0;
+	width: 2.25rem;
+	color: var(--lf-brique);
+	font: italic 400 2.25rem / 1 "Instrument Serif", Georgia, serif;
+	text-align: center;
+}
+
+blockquote {
+	padding-left: 1.5rem;
+	border-left: 2px solid var(--lf-brique);
+	font-family: "Instrument Serif", Georgia, serif;
+	font-size: 1.625rem;
+	font-style: italic;
+	line-height: 1.35;
+}

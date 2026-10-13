@@ -1,0 +1,2899 @@
+/* ==========================================================================
+   La Fabrique — feuille de style principale
+   --------------------------------------------------------------------------
+   1. Jetons (couleurs, typographie, espacements, mouvement)
+   2. Base et accessibilité
+   3. Mise en page
+   4. Typographie et prose
+   5. Composants : boutons, liens, puces, tampon, fiche, formulaires, cartes
+   6. En-tête, navigation, barre d'annonce
+   7. Panneaux (<dialog>) : menu mobile, recherche, mini-panier
+   8. Pied de page
+   9. Accueil
+   10. Recettes
+   11. Pages : atelier, articles, recherche, 404
+   12. Animations (transform et opacity uniquement)
+   13. Mouvement réduit
+   ========================================================================== */
+
+/* 1. Jetons
+   ========================================================================== */
+
+:root {
+	--lf-papier: #F4EEE3;
+	--lf-papier-2: #EAE1D2;
+	--lf-papier-3: #DDD0BC;
+	--lf-encre: #1B1512;
+	--lf-cafe: #3B2A20;
+	--lf-gris: #6E625A;
+	--lf-brique: #B8502E;
+	--lf-brique-fonce: #93401F;
+	--lf-creme: #D9B38C;
+	--lf-vert: #2F4A3A;
+	--lf-blanc: #FFF8EE;
+
+	/* Bordures d'éléments d'interface (contraste 3:1 sur le papier) et filets décoratifs. */
+	--lf-bord: #857769;
+	--lf-filet: #CFC2AE;
+	--lf-filet-sombre: rgba(244, 238, 227, 0.16);
+	--lf-texte-sombre: rgba(244, 238, 227, 0.78);
+
+	--lf-serif: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+	--lf-sans: "Instrument Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+	/* Échelle typographique (base 17 px, rapport proche de la quarte). */
+	--lf-t-0: 0.8125rem;
+	--lf-t-1: 0.9375rem;
+	--lf-t-2: 1.0625rem;
+	--lf-t-3: 1.25rem;
+	--lf-t-4: clamp(1.5rem, 1.25rem + 0.9vw, 1.875rem);
+	--lf-t-5: clamp(2rem, 1.45rem + 2.2vw, 3.125rem);
+	--lf-t-6: clamp(2.625rem, 1.5rem + 4.4vw, 5.25rem);
+	--lf-t-hero: clamp(3rem, 0.6rem + 10.6vw, 11.5rem);
+
+	--lf-gouttiere: clamp(1rem, 0.4rem + 2.6vw, 3rem);
+	--lf-largeur: 86rem;
+	--lf-mesure: 40rem;
+	--lf-section: clamp(4.5rem, 2.8rem + 7vw, 9.5rem);
+	--lf-entete: 4.5rem;
+
+	--lf-rayon: 6px;
+	--lf-ease: cubic-bezier(0.25, 0.7, 0.25, 1);
+	--lf-ease-sortie: cubic-bezier(0.16, 1, 0.3, 1);
+	--lf-ease-ressort: cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+/* 2. Base et accessibilité
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
+	scroll-padding-top: calc(var(--lf-entete) + 1rem);
+	scrollbar-gutter: stable;
+}
+
+html:has(dialog[open]) {
+	overflow: hidden;
+}
+
+body {
+	margin: 0;
+	min-height: 100vh;
+	background: var(--lf-papier);
+	color: var(--lf-encre);
+	font: 400 var(--lf-t-2) / 1.6 var(--lf-sans);
+	font-kerning: normal;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeLegibility;
+	overflow-x: clip;
+}
+
+/* Grain de papier : une tuile de bruit très légère, au-dessus de tout, qui ne capte aucun clic. */
+body::after {
+	content: "";
+	position: fixed;
+	inset: 0;
+	z-index: 900;
+	pointer-events: none;
+	background: url("../img/grain.png") repeat;
+	background-size: 180px;
+	opacity: 0.6;
+}
+
+img,
+svg,
+video {
+	max-width: 100%;
+}
+
+img {
+	height: auto;
+}
+
+a {
+	color: inherit;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.18em;
+}
+
+a:hover {
+	color: var(--lf-brique-fonce);
+}
+
+:focus-visible {
+	outline: 2.5px solid var(--lf-brique-fonce);
+	outline-offset: 3px;
+}
+
+.lf-sombre :focus-visible,
+.lf-pied :focus-visible {
+	outline-color: var(--lf-creme);
+}
+
+::selection {
+	background: var(--lf-creme);
+	color: var(--lf-encre);
+}
+
+.screen-reader-text {
+	position: absolute !important;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	clip-path: inset(50%);
+	white-space: nowrap;
+	border: 0;
+}
+
+.screen-reader-text:focus {
+	position: fixed !important;
+	top: 1rem;
+	left: 1rem;
+	z-index: 1000;
+	width: auto;
+	height: auto;
+	clip: auto;
+	clip-path: none;
+	padding: 0.75rem 1rem;
+	background: var(--lf-encre);
+	color: var(--lf-papier);
+}
+
+/* Lien d'évitement : hors écran, il glisse dans la page au focus clavier. */
+.lf-evitement {
+	position: fixed;
+	top: 0.75rem;
+	left: 0.75rem;
+	z-index: 1000;
+	padding: 0.8rem 1.2rem;
+	border-radius: var(--lf-rayon);
+	background: var(--lf-encre);
+	color: var(--lf-papier);
+	font-weight: 600;
+	text-decoration: none;
+	transform: translateY(-200%);
+	transition: transform 0.3s var(--lf-ease-sortie);
+}
+
+.lf-evitement:focus {
+	transform: none;
+	color: var(--lf-papier);
+}
+
+.lf-main:focus {
+	outline: none;
+}
+
+/* 3. Mise en page
+   ========================================================================== */
+
+.lf-conteneur {
+	width: min(100% - 2 * var(--lf-gouttiere), var(--lf-largeur));
+	margin-inline: auto;
+}
+
+.lf-section {
+	padding-block: var(--lf-section);
+}
+
+/* Deux sections claires qui se suivent partagent le même espace (pas de double marge). */
+.lf-section:not(.lf-sombre):not(.lf-atelier-accueil) + .lf-section:not(.lf-sombre):not(.lf-atelier-accueil) {
+	padding-top: 0;
+}
+
+.lf-grille {
+	display: grid;
+	gap: clamp(1.75rem, 1rem + 2vw, 2.75rem) clamp(1.25rem, 0.75rem + 1.5vw, 2rem);
+}
+
+.lf-grille--3,
+.lf-grille--recettes {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 64rem) {
+	.lf-grille--3,
+	.lf-grille--recettes {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 40rem) {
+	.lf-grille--3,
+	.lf-grille--recettes {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+.lf-page-tete {
+	padding-block: clamp(1.75rem, 1rem + 3vw, 3.5rem) clamp(2rem, 1rem + 3vw, 3.5rem);
+}
+
+.lf-page-tete--compacte {
+	padding-bottom: 1.5rem;
+}
+
+.lf-page-tete__titre {
+	margin: 0;
+	font-size: var(--lf-t-6);
+	max-width: 18ch;
+}
+
+.lf-page-tete__intro {
+	max-width: 52ch;
+	margin-top: 1.25rem;
+	color: var(--lf-cafe);
+	font-size: var(--lf-t-3);
+	line-height: 1.5;
+}
+
+.lf-page-tete__intro p {
+	margin: 0;
+}
+
+.lf-page-tete__recherche {
+	max-width: 36rem;
+	margin-top: 1.75rem;
+}
+
+.lf-page-corps {
+	padding-bottom: var(--lf-section);
+}
+
+.lf-large {
+	width: 100%;
+}
+
+/* 4. Typographie et prose
+   ========================================================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin: 0 0 0.5em;
+	font-family: var(--lf-serif);
+	font-weight: 400;
+	line-height: 1.05;
+	letter-spacing: -0.01em;
+	text-wrap: balance;
+}
+
+h1 {
+	font-size: var(--lf-t-6);
+}
+
+h2 {
+	font-size: var(--lf-t-5);
+}
+
+h3 {
+	font-size: var(--lf-t-4);
+}
+
+h4 {
+	font-size: var(--lf-t-3);
+}
+
+p,
+li {
+	text-wrap: pretty;
+}
+
+p {
+	margin: 0 0 1em;
+}
+
+.lf-prose {
+	max-width: var(--lf-mesure);
+	font-size: var(--lf-t-2);
+	line-height: 1.7;
+}
+
+.lf-prose > :first-child {
+	margin-top: 0;
+}
+
+.lf-prose > * + * {
+	margin-top: 1.15em;
+}
+
+.lf-prose h2 {
+	margin: 2.2em 0 0.6em;
+	font-size: clamp(1.75rem, 1.4rem + 1.4vw, 2.5rem);
+}
+
+.lf-prose h3 {
+	margin: 1.8em 0 0.5em;
+	font-size: var(--lf-t-4);
+}
+
+.lf-prose a {
+	color: var(--lf-brique-fonce);
+}
+
+.lf-prose a:hover {
+	color: var(--lf-encre);
+}
+
+.lf-prose strong {
+	font-weight: 600;
+}
+
+.lf-prose blockquote {
+	margin-inline: 0;
+	padding-left: 1.5rem;
+	border-left: 2px solid var(--lf-brique);
+	font: italic 400 var(--lf-t-4) / 1.35 var(--lf-serif);
+}
+
+.lf-prose ul {
+	padding: 0;
+	list-style: none;
+}
+
+.lf-prose ul > li {
+	position: relative;
+	padding-left: 1.6rem;
+}
+
+.lf-prose ul > li + li {
+	margin-top: 0.45em;
+}
+
+.lf-prose ul > li::before {
+	content: "";
+	position: absolute;
+	top: 0.72em;
+	left: 0.25rem;
+	width: 0.55rem;
+	height: 0.38rem;
+	border-radius: 50%;
+	background: var(--lf-brique);
+	transform: rotate(-20deg);
+}
+
+/* Listes numérotées : les étapes des recettes, numéros en italique. */
+.lf-prose ol {
+	padding: 0;
+	list-style: none;
+	counter-reset: lf-etape;
+}
+
+.lf-prose ol > li {
+	position: relative;
+	min-height: 2.75rem;
+	padding: 0.15rem 0 1.1rem 3.75rem;
+	border-bottom: 1px solid var(--lf-filet);
+	counter-increment: lf-etape;
+}
+
+.lf-prose ol > li + li {
+	padding-top: 1rem;
+}
+
+.lf-prose ol > li + li::before {
+	top: 0.85rem;
+}
+
+.lf-prose ol > li:last-child {
+	border-bottom: 0;
+}
+
+.lf-prose ol > li::before {
+	content: counter(lf-etape);
+	position: absolute;
+	top: -0.2rem;
+	left: 0;
+	width: 2.5rem;
+	font: italic 400 2.5rem / 1 var(--lf-serif);
+	color: var(--lf-brique);
+	text-align: center;
+}
+
+.lf-prose figure {
+	margin-inline: 0;
+}
+
+.lf-prose img {
+	border-radius: var(--lf-rayon);
+}
+
+.lf-prose figcaption,
+.wp-element-caption {
+	margin-top: 0.6rem;
+	color: var(--lf-gris);
+	font-size: var(--lf-t-0);
+}
+
+.lf-prose hr {
+	height: 1px;
+	margin-block: 2.5em;
+	border: 0;
+	background: var(--lf-filet);
+}
+
+.lf-prose table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: var(--lf-t-1);
+}
+
+.lf-prose th,
+.lf-prose td {
+	padding: 0.6rem 0.75rem;
+	border-bottom: 1px solid var(--lf-filet);
+	text-align: left;
+}
+
+.alignwide {
+	width: min(100vw - 2 * var(--lf-gouttiere), 72rem);
+	max-width: none;
+	margin-inline: calc(50% - min(50vw - var(--lf-gouttiere), 36rem));
+}
+
+.alignfull {
+	width: 100vw;
+	max-width: none;
+	margin-inline: calc(50% - 50vw);
+}
+
+.lf-meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.25rem 1.25rem;
+	margin: 1.25rem 0 0;
+	color: var(--lf-gris);
+	font-size: var(--lf-t-1);
+}
+
+/* 5. Composants
+   ========================================================================== */
+
+/* Boutons --------------------------------------------------------------- */
+
+.lf-bouton,
+.wp-element-button,
+.wp-block-button__link {
+	--mx: 0px;
+	--my: 0px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.55em;
+	min-height: 3rem;
+	padding: 0.8em 1.55em;
+	border: 0;
+	border-radius: 999px;
+	background: var(--lf-brique);
+	color: var(--lf-blanc);
+	font: 600 var(--lf-t-1) / 1.1 var(--lf-sans);
+	letter-spacing: 0.01em;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+	transform: translate(var(--mx), var(--my));
+	transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.5s var(--lf-ease-sortie);
+}
+
+.lf-bouton:hover,
+.wp-element-button:hover,
+.wp-block-button__link:hover {
+	background: var(--lf-brique-fonce);
+	color: var(--lf-blanc);
+}
+
+.lf-bouton--grand {
+	min-height: 3.5rem;
+	padding-inline: 2rem;
+	font-size: var(--lf-t-2);
+}
+
+.lf-bouton--contour {
+	background: transparent;
+	color: var(--lf-encre);
+	box-shadow: inset 0 0 0 1.5px var(--lf-encre);
+}
+
+.lf-bouton--contour:hover {
+	background: var(--lf-encre);
+	color: var(--lf-papier);
+}
+
+.lf-sombre .lf-bouton--contour {
+	color: var(--lf-papier);
+	box-shadow: inset 0 0 0 1.5px var(--lf-papier);
+}
+
+.lf-sombre .lf-bouton--contour:hover {
+	background: var(--lf-papier);
+	color: var(--lf-encre);
+}
+
+.lf-bouton .lf-icone {
+	width: 1.15em;
+	height: 1.15em;
+}
+
+/* Le contenu d'un bouton magnétique suit le pointeur un peu plus que le bouton lui-même. */
+[data-lf-magnetique] > span {
+	display: inline-block;
+	transform: translate(calc(var(--mx) * 0.35), calc(var(--my) * 0.35));
+	transition: transform 0.5s var(--lf-ease-sortie);
+}
+
+/* Liens autonomes : un trait brique qui file vers la droite et revient au survol. */
+.lf-lien {
+	position: relative;
+	display: inline-block;
+	padding-bottom: 0.15em;
+	color: var(--lf-encre);
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.lf-lien::after {
+	content: "";
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	height: 1.5px;
+	background: var(--lf-brique);
+	transform-origin: left;
+}
+
+.lf-lien:hover {
+	color: var(--lf-encre);
+}
+
+.lf-lien:hover::after {
+	animation: lf-trait 0.75s var(--lf-ease-sortie);
+}
+
+.lf-lien--clair,
+.lf-lien--clair:hover,
+.lf-sombre .lf-lien,
+.lf-sombre .lf-lien:hover {
+	color: var(--lf-papier);
+}
+
+.lf-lien--clair::after,
+.lf-sombre .lf-lien::after {
+	background: var(--lf-creme);
+}
+
+/* Icônes ------------------------------------------------------------------ */
+
+.lf-icone {
+	display: inline-block;
+	flex: none;
+	width: 1.375rem;
+	height: 1.375rem;
+	vertical-align: middle;
+}
+
+/* Puces (filtres, notes, méthodes) -------------------------------------- */
+
+.lf-puces {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.lf-puce {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	min-height: 2.5rem;
+	padding: 0.45rem 1.05rem;
+	border: 1px solid var(--lf-bord);
+	border-radius: 999px;
+	background: transparent;
+	color: var(--lf-encre);
+	font-size: var(--lf-t-1);
+	font-weight: 500;
+	line-height: 1.2;
+	text-decoration: none;
+	transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+a.lf-puce:hover {
+	border-color: var(--lf-encre);
+	color: var(--lf-encre);
+	background: var(--lf-papier-2);
+}
+
+.lf-puce[aria-current],
+a.lf-puce[aria-current]:hover {
+	border-color: var(--lf-encre);
+	background: var(--lf-encre);
+	color: var(--lf-papier);
+}
+
+.lf-puce__nombre {
+	color: var(--lf-gris);
+	font-size: 0.75rem;
+	font-variant-numeric: tabular-nums;
+}
+
+.lf-puce[aria-current] .lf-puce__nombre {
+	color: var(--lf-papier-3);
+}
+
+.lf-puce--note {
+	min-height: 0;
+	padding: 0.3rem 0.95rem 0.35rem;
+	border-color: transparent;
+	background: var(--lf-papier-2);
+	font: italic 400 1.1875rem / 1.2 var(--lf-serif);
+}
+
+/* Tampon encreur (lot de la semaine, étiquettes) ------------------------ */
+
+.lf-tampon {
+	display: inline-flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.15rem;
+	margin: 0;
+	padding: 0.55rem 1rem 0.5rem;
+	border: 2px solid currentColor;
+	border-radius: 7px;
+	box-shadow: 0 0 0 3px var(--lf-papier), 0 0 0 4.5px currentColor;
+	color: var(--lf-brique);
+	font: 700 0.6875rem / 1.25 var(--lf-sans);
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	transform: rotate(-5deg);
+	-webkit-mask: url("../img/encre.png") center / 240px;
+	mask: url("../img/encre.png") center / 240px;
+}
+
+.lf-tampon__grand {
+	font: 400 1.875rem / 1 var(--lf-serif);
+	letter-spacing: 0;
+	text-transform: none;
+}
+
+/* Fiche (liste de définitions en lignes) -------------------------------- */
+
+.lf-fiche {
+	margin: 1.75rem 0 2rem;
+	padding: 0;
+	border-top: 1px solid var(--lf-filet);
+}
+
+.lf-fiche__ligne {
+	display: grid;
+	grid-template-columns: minmax(9rem, 13rem) 1fr;
+	gap: 0.25rem 1.25rem;
+	padding-block: 0.9rem;
+	border-bottom: 1px solid var(--lf-filet);
+}
+
+.lf-fiche dt {
+	display: flex;
+	align-items: center;
+	gap: 0.55rem;
+	font-size: var(--lf-t-1);
+	font-weight: 600;
+}
+
+.lf-fiche dt .lf-icone {
+	color: var(--lf-brique);
+}
+
+.lf-fiche dd {
+	margin: 0;
+	color: var(--lf-cafe);
+}
+
+.lf-fiche__bloc {
+	display: block;
+}
+
+.lf-fictive {
+	max-width: 48ch;
+	margin: 2rem 0 0;
+	padding-left: 0.9rem;
+	border-left: 2px solid var(--lf-brique);
+	color: var(--lf-gris);
+	font-size: var(--lf-t-0);
+	line-height: 1.5;
+}
+
+/* Formulaires ------------------------------------------------------------ */
+
+label {
+	font-weight: 600;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+select,
+textarea {
+	width: 100%;
+	min-height: 3rem;
+	padding: 0.7rem 0.95rem;
+	border: 1.5px solid var(--lf-bord);
+	border-radius: 8px;
+	background-color: var(--lf-blanc);
+	color: var(--lf-encre);
+	font: inherit;
+	font-size: 1rem;
+	line-height: 1.4;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease;
+	-webkit-appearance: none;
+	appearance: none;
+}
+
+textarea {
+	min-height: 8rem;
+	resize: vertical;
+}
+
+select {
+	padding-right: 2.75rem;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231B1512' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 0.9rem center;
+	background-size: 1.1rem;
+	cursor: pointer;
+}
+
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+	outline: none;
+	border-color: var(--lf-encre);
+	box-shadow: 0 0 0 3px rgba(184, 80, 46, 0.35);
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+	width: 1.15rem;
+	height: 1.15rem;
+	margin: 0 0.5rem 0 0;
+	accent-color: var(--lf-brique);
+	vertical-align: -0.15em;
+}
+
+::placeholder {
+	color: var(--lf-gris);
+	opacity: 1;
+}
+
+.lf-recherche-form {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.lf-recherche-form__champ {
+	flex: 1;
+	min-width: 0;
+}
+
+.lf-recherche-form__bouton {
+	flex: none;
+}
+
+/* Cartes (articles, recettes) --------------------------------------------- */
+
+.lf-carte {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: 1.1rem;
+}
+
+.lf-carte__image {
+	overflow: hidden;
+	border-radius: var(--lf-rayon);
+	background: var(--lf-papier-2);
+	aspect-ratio: 3 / 2;
+}
+
+.lf-carte__image img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 1.1s var(--lf-ease-sortie);
+}
+
+.lf-carte:hover .lf-carte__image img {
+	transform: scale(1.045);
+}
+
+.lf-carte__titre {
+	margin: 0;
+	font-size: clamp(1.5rem, 1.3rem + 0.6vw, 1.875rem);
+	line-height: 1.08;
+}
+
+.lf-carte__lien {
+	color: inherit;
+	text-decoration: none;
+}
+
+.lf-carte__lien::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+}
+
+.lf-carte__lien:focus-visible {
+	outline: none;
+}
+
+.lf-carte:has(.lf-carte__lien:focus-visible) {
+	outline: 2.5px solid var(--lf-brique-fonce);
+	outline-offset: 8px;
+	border-radius: 2px;
+}
+
+.lf-carte:hover .lf-carte__lien {
+	color: var(--lf-brique-fonce);
+}
+
+.lf-carte__meta {
+	margin: 0 0 0.4rem;
+	color: var(--lf-gris);
+	font-size: var(--lf-t-0);
+}
+
+.lf-carte__extrait {
+	margin: 0.6rem 0 0;
+	color: var(--lf-cafe);
+	font-size: var(--lf-t-1);
+}
+
+.lf-carte__extrait p {
+	margin: 0;
+}
+
+/* 6. En-tête, navigation, barre d'annonce
+   ========================================================================== */
+
+.lf-annonce {
+	position: relative;
+	z-index: 60;
+	background: var(--lf-encre);
+	color: var(--lf-papier);
+}
+
+.lf-annonce:not(:has(.lf-livraison)) {
+	display: none;
+}
+
+.lf-annonce__interieur {
+	display: flex;
+	justify-content: center;
+	padding-block: 0.5rem;
+}
+
+.lf-annonce .lf-livraison {
+	display: flex;
+	align-items: center;
+	gap: 0.9rem;
+	margin: 0;
+	color: inherit;
+}
+
+.lf-annonce .lf-livraison__texte {
+	margin: 0;
+	font-size: var(--lf-t-0);
+	font-weight: 500;
+	letter-spacing: 0.01em;
+}
+
+.lf-annonce .lf-livraison__barre {
+	flex: none;
+	width: 6.5rem;
+	height: 4px;
+	background: rgba(244, 238, 227, 0.22);
+}
+
+.lf-annonce .lf-livraison__jauge,
+.lf-annonce .lf-livraison.is-atteint .lf-livraison__jauge {
+	background: var(--lf-creme);
+}
+
+.lf-entete {
+	position: sticky;
+	top: 0;
+	z-index: 50;
+	background: var(--lf-papier);
+	transition: transform 0.55s var(--lf-ease-sortie), box-shadow 0.3s ease;
+}
+
+.lf-entete.is-compact {
+	box-shadow: 0 1px 0 var(--lf-filet);
+}
+
+.lf-entete.is-cache {
+	transform: translateY(-100%);
+}
+
+.lf-entete__barre {
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	align-items: center;
+	gap: 1.5rem;
+	min-height: var(--lf-entete);
+}
+
+.lf-logo {
+	display: inline-flex;
+	align-items: center;
+	color: var(--lf-encre);
+	text-decoration: none;
+}
+
+.lf-logo:hover {
+	color: var(--lf-encre);
+}
+
+.lf-logo__svg {
+	display: block;
+	width: auto;
+	height: 2.25rem;
+}
+
+.lf-logo__svg .lf-logo__mot {
+	fill: currentColor;
+}
+
+.lf-logo__svg .lf-logo__symbole {
+	fill: var(--lf-brique);
+	transform-box: fill-box;
+	transform-origin: center;
+	transition: transform 0.8s var(--lf-ease-ressort);
+}
+
+.lf-logo:hover .lf-logo__symbole {
+	transform: rotate(-14deg) scale(1.06);
+}
+
+.custom-logo-link img {
+	display: block;
+	width: auto;
+	max-height: 2.75rem;
+}
+
+.lf-nav__liste {
+	display: flex;
+	justify-content: center;
+	gap: clamp(1.25rem, 0.5rem + 2vw, 2.75rem);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.lf-nav__lien,
+.lf-nav__liste a {
+	position: relative;
+	display: inline-block;
+	padding-block: 0.6rem;
+	color: var(--lf-encre);
+	font-size: var(--lf-t-1);
+	font-weight: 500;
+	text-decoration: none;
+}
+
+.lf-nav__liste a::after {
+	content: "";
+	position: absolute;
+	right: 0;
+	bottom: 0.3rem;
+	left: 0;
+	height: 1.5px;
+	background: var(--lf-brique);
+	transform: scaleX(0);
+	transform-origin: right;
+	transition: transform 0.45s var(--lf-ease-sortie);
+}
+
+.lf-nav__liste a:hover {
+	color: var(--lf-encre);
+}
+
+.lf-nav__liste a:hover::after,
+.lf-nav__liste .current-menu-item > a::after,
+.lf-nav__liste .current-menu-parent > a::after,
+.lf-nav__liste .current-product-ancestor > a::after,
+.lf-nav__liste a[aria-current]::after {
+	transform: scaleX(1);
+	transform-origin: left;
+}
+
+.lf-entete__actions {
+	display: flex;
+	align-items: center;
+	gap: 0.15rem;
+}
+
+.lf-action {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	width: 2.75rem;
+	height: 2.75rem;
+	padding: 0;
+	border: 0;
+	border-radius: 999px;
+	background: transparent;
+	color: var(--lf-encre);
+	font: inherit;
+	cursor: pointer;
+	transition: background-color 0.25s ease;
+}
+
+.lf-action:hover {
+	background: var(--lf-papier-2);
+	color: var(--lf-encre);
+}
+
+.lf-panier-compteur {
+	position: absolute;
+	top: 0.2rem;
+	right: 0.1rem;
+	min-width: 1.15rem;
+	height: 1.15rem;
+	padding-inline: 0.3rem;
+	border-radius: 999px;
+	background: var(--lf-brique);
+	color: var(--lf-blanc);
+	font: 700 0.6875rem / 1.15rem var(--lf-sans);
+	text-align: center;
+	pointer-events: none;
+}
+
+.lf-panier-compteur[data-nombre="0"] {
+	opacity: 0;
+	transform: scale(0.4);
+}
+
+.lf-panier-compteur.is-rebond {
+	animation: lf-rebond 0.6s var(--lf-ease-ressort);
+}
+
+.lf-burger {
+	display: none;
+	width: auto;
+	padding-inline: 0.9rem 1rem;
+	box-shadow: inset 0 0 0 1px var(--lf-bord);
+}
+
+.lf-burger__traits {
+	position: relative;
+	width: 1.05rem;
+	height: 0.55rem;
+}
+
+.lf-burger__traits::before,
+.lf-burger__traits::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	width: 100%;
+	height: 1.6px;
+	background: currentColor;
+}
+
+.lf-burger__traits::before {
+	top: 0;
+}
+
+.lf-burger__traits::after {
+	bottom: 0;
+}
+
+.lf-burger__texte {
+	font-size: var(--lf-t-1);
+	font-weight: 600;
+}
+
+@media (max-width: 60rem) {
+	.js .lf-nav {
+		display: none;
+	}
+
+	.js .lf-burger {
+		display: inline-flex;
+	}
+
+	.lf-entete__barre {
+		grid-template-columns: 1fr auto;
+	}
+
+	.lf-logo__svg {
+		height: 1.9rem;
+	}
+}
+
+/* Sans JavaScript : pas de panneaux, le menu reste visible sous le logo. */
+.no-js .lf-action--recherche,
+.no-js .lf-burger {
+	display: none;
+}
+
+@media (max-width: 60rem) {
+	.no-js .lf-nav {
+		grid-column: 1 / -1;
+		padding-bottom: 0.75rem;
+	}
+
+	.no-js .lf-nav__liste {
+		flex-wrap: wrap;
+		justify-content: flex-start;
+		gap: 0.25rem 1.25rem;
+	}
+}
+
+@media (max-width: 30rem) {
+	.lf-action--compte {
+		display: none;
+	}
+}
+
+/* Fil d'Ariane ------------------------------------------------------------ */
+
+.lf-ariane {
+	margin-bottom: 1.5rem;
+	font-size: var(--lf-t-0);
+}
+
+.lf-ariane__liste {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.25rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	color: var(--lf-gris);
+}
+
+.lf-ariane__liste li {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.25rem;
+}
+
+.lf-ariane__liste li + li::before {
+	content: "";
+	width: 0.9rem;
+	height: 1px;
+	margin-inline: 0.3rem;
+	background: var(--lf-bord);
+}
+
+.lf-ariane__liste a {
+	color: var(--lf-cafe);
+	text-decoration: none;
+}
+
+.lf-ariane__liste a:hover {
+	color: var(--lf-brique-fonce);
+	text-decoration: underline;
+}
+
+/* 7. Panneaux (<dialog>)
+   ========================================================================== */
+
+.lf-panneau {
+	max-width: none;
+	max-height: none;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: var(--lf-papier);
+	color: var(--lf-encre);
+	opacity: 0;
+	transition: opacity 0.35s ease, transform 0.6s var(--lf-ease-sortie);
+}
+
+.lf-panneau.is-visible {
+	opacity: 1;
+	transform: none;
+}
+
+.lf-panneau::backdrop {
+	background: rgba(27, 21, 18, 0);
+	transition: background-color 0.35s ease;
+}
+
+.lf-panneau.is-visible::backdrop {
+	background: rgba(27, 21, 18, 0.5);
+}
+
+.lf-panneau__tete {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	min-height: var(--lf-entete);
+}
+
+.lf-panneau__titre {
+	margin: 0;
+	font-size: var(--lf-t-4);
+}
+
+/* Menu mobile : plein écran, grands liens en Instrument Serif. */
+.lf-panneau--menu {
+	position: fixed;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	transform: translateY(-1.5rem);
+}
+
+.lf-panneau--menu[open] {
+	display: flex;
+	flex-direction: column;
+	padding: 0 var(--lf-gouttiere) 1.5rem;
+	overflow-y: auto;
+}
+
+.lf-menu-mobile__liste {
+	display: grid;
+	gap: 0.15rem;
+	margin: 2rem 0;
+	padding: 0;
+	list-style: none;
+}
+
+.lf-menu-mobile__liste a {
+	display: block;
+	padding-block: 0.3rem;
+	border-bottom: 1px solid var(--lf-filet);
+	color: var(--lf-encre);
+	font: 400 clamp(2.5rem, 1.5rem + 6vw, 3.75rem) / 1.1 var(--lf-serif);
+	text-decoration: none;
+}
+
+.lf-menu-mobile__liste li {
+	opacity: 0;
+	transform: translateY(1.25rem);
+	transition: opacity 0.5s ease, transform 0.7s var(--lf-ease-sortie);
+}
+
+.lf-panneau.is-visible .lf-menu-mobile__liste li {
+	opacity: 1;
+	transform: none;
+}
+
+.lf-menu-mobile__liste li:nth-child(2) {
+	transition-delay: 0.05s;
+}
+
+.lf-menu-mobile__liste li:nth-child(3) {
+	transition-delay: 0.1s;
+}
+
+.lf-menu-mobile__liste li:nth-child(4) {
+	transition-delay: 0.15s;
+}
+
+.lf-menu-mobile__liste li:nth-child(5) {
+	transition-delay: 0.2s;
+}
+
+.lf-menu-mobile__liste li:nth-child(n + 6) {
+	transition-delay: 0.25s;
+}
+
+.lf-menu-mobile__bas {
+	margin-top: auto;
+}
+
+.lf-menu-mobile__note {
+	margin: 1rem 0 0;
+	color: var(--lf-gris);
+	font-size: var(--lf-t-0);
+}
+
+/* Recherche : un volet qui descend du haut de l'écran. */
+.lf-panneau--recherche {
+	position: fixed;
+	inset: 0 0 auto;
+	width: 100%;
+	padding-bottom: clamp(1.5rem, 4vw, 3rem);
+	transform: translateY(-100%);
+}
+
+.lf-panneau--recherche .lf-recherche-form__champ {
+	min-height: 4rem;
+	font: 400 clamp(1.5rem, 1.1rem + 1.6vw, 2.25rem) / 1.2 var(--lf-serif);
+}
+
+.lf-panneau--recherche .lf-recherche-form__bouton {
+	min-height: 4rem;
+}
+
+.lf-recherche__pistes {
+	margin-top: 1.5rem;
+}
+
+.lf-recherche__label {
+	margin-bottom: 0.6rem;
+	color: var(--lf-gris);
+	font-size: var(--lf-t-0);
+}
+
+/* Mini-panier : un panneau latéral à droite. */
+.lf-panneau--panier {
+	position: fixed;
+	inset: 0 0 0 auto;
+	width: min(27rem, 100%);
+	height: 100%;
+	transform: translateX(100%);
+}
+
+.lf-panneau--panier[open] {
+	display: flex;
+	flex-direction: column;
+	padding: 0 clamp(1.25rem, 3vw, 2rem) 1.5rem;
+	overflow-y: auto;
+}
+
+/* 8. Pied de page
+   ========================================================================== */
+
+.lf-toits {
+	height: 2.75rem;
+	background: var(--lf-encre);
+	-webkit-mask: url("../img/toits.svg") repeat-x left bottom / auto 100%;
+	mask: url("../img/toits.svg") repeat-x left bottom / auto 100%;
+}
+
+.lf-pied {
+	position: relative;
+	margin-top: 2.75rem;
+	padding-bottom: 2rem;
+	background: var(--lf-encre);
+	color: var(--lf-papier);
+}
+
+.lf-pied__toits {
+	position: absolute;
+	right: 0;
+	bottom: calc(100% - 1px);
+	left: 0;
+}
+
+.lf-pied__haut {
+	display: grid;
+	gap: 1.5rem;
+	padding-top: clamp(2.5rem, 5vw, 4.5rem);
+}
+
+/* Le mot-symbole occupe toute la largeur du conteneur (rapport largeur / corps ≈ 3,7). */
+.lf-pied__marque {
+	margin: 0;
+	font: 400 min(calc((100vw - 2 * var(--lf-gouttiere)) / 3.85), 22rem) / 0.82 var(--lf-serif);
+	letter-spacing: -0.03em;
+	white-space: nowrap;
+}
+
+.lf-pied__signature {
+	max-width: 46ch;
+	margin: 0;
+	color: var(--lf-texte-sombre);
+	font-size: var(--lf-t-3);
+}
+
+.lf-pied__colonnes {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+	gap: 2rem;
+	margin-top: clamp(2.5rem, 5vw, 4rem);
+	padding-block: 2.5rem;
+	border-top: 1px solid var(--lf-filet-sombre);
+}
+
+.lf-pied__titre {
+	margin: 0 0 1rem;
+	color: var(--lf-creme);
+	font: 600 var(--lf-t-0) / 1.3 var(--lf-sans);
+	letter-spacing: 0.02em;
+}
+
+.lf-pied__bloc p {
+	margin: 0 0 0.5rem;
+}
+
+.lf-pied__liste {
+	display: grid;
+	gap: 0.45rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.lf-pied__liste a {
+	color: var(--lf-papier);
+	text-decoration: none;
+}
+
+.lf-pied__liste a:hover {
+	color: var(--lf-creme);
+	text-decoration: underline;
+}
+
+.lf-pied__liste--simple {
+	color: var(--lf-texte-sombre);
+}
+
+.lf-pied__petit {
+	color: var(--lf-texte-sombre);
+	font-size: var(--lf-t-1);
+}
+
+.lf-pied__bas {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem 2rem;
+	padding-top: 1.5rem;
+	border-top: 1px solid var(--lf-filet-sombre);
+	color: var(--lf-texte-sombre);
+	font-size: var(--lf-t-0);
+}
+
+.lf-pied__bas p {
+	margin: 0;
+}
+
+.lf-pied__fictive {
+	flex: 1;
+	min-width: min(100%, 20rem);
+}
+
+.lf-pied__retour {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	color: var(--lf-papier);
+	text-decoration: none;
+}
+
+.lf-pied__retour:hover {
+	color: var(--lf-creme);
+}
+
+.lf-pied__retour .lf-icone {
+	width: 1.1rem;
+	height: 1.1rem;
+}
+
+/* 9. Accueil
+   ========================================================================== */
+
+/* Hero -------------------------------------------------------------------- */
+
+.lf-hero {
+	position: relative;
+	padding-top: clamp(1.5rem, 0.5rem + 4vw, 4.5rem);
+	overflow: hidden;
+}
+
+.lf-hero__grille {
+	display: grid;
+	grid-template-columns: repeat(12, minmax(0, 1fr));
+	align-items: end;
+	gap: clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 2vw, 2rem);
+}
+
+.lf-hero__titre {
+	grid-column: 1 / -1;
+	grid-row: 1;
+	margin: 0;
+	font-size: var(--lf-t-hero);
+	line-height: 0.86;
+	letter-spacing: -0.03em;
+	text-wrap: initial;
+}
+
+/* Chaque ligne est un masque : le texte remonte de dessous (révélation au chargement). */
+.lf-hero__ligne {
+	display: block;
+	overflow: hidden;
+	padding-bottom: 0.14em;
+	margin-bottom: -0.14em;
+}
+
+.lf-hero__ligne > span {
+	display: block;
+}
+
+.lf-hero__ligne:nth-child(2) {
+	padding-left: clamp(0rem, -6rem + 16vw, 12rem);
+}
+
+/* L'introduction occupe le vide à droite de « Le café, » ; le tampon termine la seconde ligne. */
+.lf-hero__texte {
+	position: relative;
+	grid-column: 8 / -1;
+	grid-row: 1;
+	align-self: start;
+	padding-top: clamp(0.5rem, 1.5vw, 1.75rem);
+}
+
+.lf-hero__intro {
+	max-width: 34ch;
+	margin: 0 0 1.75rem;
+	color: var(--lf-cafe);
+	font-size: clamp(1.125rem, 1rem + 0.45vw, 1.375rem);
+	line-height: 1.5;
+}
+
+.lf-hero__actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 1.25rem 1.75rem;
+}
+
+.lf-hero__tampon {
+	position: relative;
+	grid-column: 10 / -1;
+	grid-row: 1;
+	justify-self: end;
+	align-self: end;
+	margin: 0 0.5rem clamp(1rem, 2.5vw, 2.5rem) 0;
+}
+
+.lf-hero__courbe {
+	grid-column: 1 / -1;
+	grid-row: 2;
+	margin: clamp(0.5rem, 2vw, 2rem) 0 0;
+}
+
+.lf-courbe .lf-courbe__svg--compact {
+	display: none;
+}
+
+.lf-hero__ville {
+	position: relative;
+	height: clamp(7rem, 4rem + 9vw, 11rem);
+	margin-top: clamp(-1rem, -4vw, -3rem);
+	pointer-events: none;
+}
+
+.lf-hero__toits {
+	position: absolute;
+	right: 0;
+	bottom: -1px;
+	left: 0;
+	height: clamp(2.25rem, 1.5rem + 2.5vw, 3.5rem);
+}
+
+.lf-hero__cheminee {
+	position: absolute;
+	right: 9%;
+	bottom: 0;
+	width: auto;
+	height: 100%;
+	overflow: visible;
+}
+
+.lf-hero__brique {
+	fill: var(--lf-encre);
+}
+
+.lf-fumee {
+	fill: var(--lf-papier-3);
+	transform-box: fill-box;
+	transform-origin: center;
+	animation: lf-fumee 7s cubic-bezier(0.3, 0.6, 0.4, 1) infinite;
+}
+
+.lf-fumee--2 {
+	animation-delay: -2.33s;
+}
+
+.lf-fumee--3 {
+	animation-delay: -4.66s;
+}
+
+/* Courbe de torréfaction -------------------------------------------------- */
+
+.lf-courbe__svg {
+	display: block;
+	width: 100%;
+	height: auto;
+	overflow: visible;
+	font-family: var(--lf-sans);
+}
+
+.lf-courbe__phase--0 {
+	fill: rgba(47, 74, 58, 0.07);
+}
+
+.lf-courbe__phase--1 {
+	fill: rgba(217, 179, 140, 0.26);
+}
+
+.lf-courbe__phase--2 {
+	fill: rgba(184, 80, 46, 0.12);
+}
+
+.lf-courbe__nom-phase {
+	fill: var(--lf-cafe);
+	font: italic 400 15px var(--lf-serif);
+}
+
+.lf-courbe__grille line {
+	stroke: var(--lf-filet);
+	stroke-width: 1;
+	stroke-dasharray: 2 5;
+}
+
+.lf-courbe__grille .lf-courbe__base {
+	stroke: var(--lf-cafe);
+	stroke-dasharray: none;
+}
+
+.lf-courbe__axe {
+	fill: var(--lf-gris);
+	font-size: 11px;
+	font-variant-numeric: tabular-nums;
+}
+
+.lf-courbe__ligne {
+	fill: none;
+	stroke: var(--lf-brique);
+	stroke-width: 3;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+.lf-courbe__repere circle {
+	fill: var(--lf-papier);
+	stroke: var(--lf-encre);
+	stroke-width: 2;
+}
+
+.lf-courbe__etape {
+	fill: var(--lf-encre);
+	font-size: 12.5px;
+	font-weight: 600;
+}
+
+.lf-courbe__valeur {
+	fill: var(--lf-gris);
+	font-size: 11.5px;
+}
+
+.lf-courbe__legende {
+	margin-top: 0.75rem;
+	color: var(--lf-gris);
+	font-size: var(--lf-t-0);
+}
+
+/* Bandeau défilant -------------------------------------------------------- */
+
+.lf-bandeau {
+	overflow: hidden;
+	padding-block: clamp(1.25rem, 0.8rem + 2vw, 2.5rem) clamp(1.5rem, 1rem + 2vw, 2.75rem);
+	background: var(--lf-encre);
+	color: var(--lf-papier);
+}
+
+.lf-bandeau__piste {
+	display: flex;
+	width: max-content;
+	animation: lf-defile 42s linear infinite;
+}
+
+.lf-bandeau:hover .lf-bandeau__piste {
+	animation-play-state: paused;
+}
+
+.lf-bandeau__liste {
+	display: flex;
+	align-items: center;
+	gap: clamp(1.25rem, 2.5vw, 2.75rem);
+	margin: 0;
+	padding: 0 clamp(1.25rem, 2.5vw, 2.75rem) 0 0;
+	list-style: none;
+}
+
+.lf-bandeau__liste li {
+	font: italic 400 clamp(2.5rem, 1.4rem + 4.4vw, 6rem) / 1 var(--lf-serif);
+	letter-spacing: -0.01em;
+	white-space: nowrap;
+}
+
+.lf-bandeau__separateur {
+	display: flex;
+}
+
+.lf-bandeau__grain {
+	width: clamp(2rem, 1.5rem + 2vw, 3.5rem);
+	height: auto;
+}
+
+.lf-bandeau__grain path {
+	fill: var(--lf-brique);
+}
+
+/* Sections de l'accueil --------------------------------------------------- */
+
+.lf-section__tete {
+	display: grid;
+	grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+	align-items: end;
+	gap: 1rem clamp(2rem, 5vw, 5rem);
+	margin-bottom: clamp(2rem, 1rem + 3vw, 3.75rem);
+}
+
+.lf-section__titre {
+	grid-row: span 2;
+	margin: 0;
+	font-size: var(--lf-t-6);
+	max-width: 14ch;
+}
+
+.lf-section__intro {
+	max-width: 38ch;
+	margin: 0;
+	color: var(--lf-cafe);
+}
+
+.lf-section__tete .lf-lien {
+	justify-self: start;
+}
+
+.lf-sombre {
+	background: var(--lf-encre);
+	color: var(--lf-papier);
+}
+
+.lf-sombre .lf-section__intro {
+	color: var(--lf-texte-sombre);
+}
+
+/* Étapes : la ligne des températures ------------------------------------- */
+
+.lf-etapes__courbe {
+	position: relative;
+	height: 200px;
+	margin: clamp(1rem, 3vw, 2.5rem) 0 2.5rem;
+}
+
+.lf-etapes__courbe svg {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+.lf-etapes__ligne {
+	fill: none;
+	stroke: var(--lf-brique);
+	stroke-width: 3;
+	vector-effect: non-scaling-stroke;
+}
+
+.lf-etapes__base {
+	stroke: rgba(244, 238, 227, 0.22);
+	stroke-width: 1;
+	stroke-dasharray: 3 7;
+	vector-effect: non-scaling-stroke;
+}
+
+.lf-etapes__point {
+	position: absolute;
+	top: var(--lf-y);
+	left: var(--lf-x);
+	width: 15px;
+	height: 15px;
+	margin: -7.5px 0 0 -7.5px;
+	border: 2.5px solid var(--lf-creme);
+	border-radius: 50%;
+	background: var(--lf-encre);
+}
+
+.lf-etapes__temp {
+	position: absolute;
+	bottom: 0.65rem;
+	left: 0.9rem;
+	color: var(--lf-papier);
+	font: 400 clamp(1.75rem, 1rem + 1.8vw, 2.75rem) / 1 var(--lf-serif);
+	white-space: nowrap;
+}
+
+.lf-etapes__liste {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 2rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.lf-etape__temp {
+	display: none;
+}
+
+.lf-etape__titre {
+	display: flex;
+	align-items: baseline;
+	gap: 0.7rem;
+	margin: 0 0 0.75rem;
+	font-size: var(--lf-t-4);
+}
+
+.lf-etape__numero {
+	display: inline-grid;
+	flex: none;
+	place-items: center;
+	width: 1.8rem;
+	height: 1.8rem;
+	border: 1px solid rgba(244, 238, 227, 0.4);
+	border-radius: 50%;
+	font: 600 0.75rem / 1 var(--lf-sans);
+	transform: translateY(-0.15em);
+}
+
+.lf-etape__texte {
+	max-width: 32ch;
+	margin: 0;
+	color: var(--lf-texte-sombre);
+	font-size: var(--lf-t-1);
+}
+
+/* Dernières recettes ------------------------------------------------------- */
+
+.lf-recettes-accueil__grille {
+	display: grid;
+	grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+	gap: clamp(1.75rem, 3vw, 2.75rem) clamp(1.5rem, 3.5vw, 3.5rem);
+}
+
+.lf-carte-recette--une {
+	grid-row: span 2;
+}
+
+.lf-carte-recette--une .lf-carte__titre {
+	font-size: clamp(2rem, 1.5rem + 1.8vw, 3rem);
+}
+
+.lf-carte-recette--ligne {
+	display: grid;
+	grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+	align-items: center;
+	align-self: center;
+	gap: 1.5rem;
+}
+
+.lf-carte-recette--ligne .lf-carte__image {
+	aspect-ratio: 4 / 3;
+}
+
+.lf-carte-recette__methode {
+	margin: 0 0 0.45rem;
+	color: var(--lf-brique-fonce);
+	font-size: var(--lf-t-0);
+	font-weight: 600;
+	letter-spacing: 0.01em;
+}
+
+.lf-carte-recette__infos {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4rem 1.1rem;
+	margin: 0.85rem 0 0;
+	padding: 0;
+	list-style: none;
+	color: var(--lf-cafe);
+	font-size: var(--lf-t-0);
+}
+
+.lf-carte-recette__infos li {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+}
+
+.lf-carte-recette__infos .lf-icone {
+	width: 1.1rem;
+	height: 1.1rem;
+	color: var(--lf-gris);
+}
+
+/* L'atelier sur l'accueil ------------------------------------------------- */
+
+.lf-atelier-accueil {
+	background: var(--lf-papier-2);
+}
+
+.lf-atelier-accueil__grille {
+	display: grid;
+	grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+	align-items: center;
+	gap: clamp(2.5rem, 6vw, 6rem);
+}
+
+.lf-atelier-accueil__visuel {
+	position: relative;
+}
+
+.lf-atelier-accueil__dessin {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+
+.lf-badge-tournant {
+	position: absolute;
+	top: -1.5rem;
+	left: -0.5rem;
+	width: clamp(6.5rem, 4rem + 6vw, 9.5rem);
+	height: auto;
+	animation: lf-tourne 28s linear infinite;
+}
+
+.lf-atelier-accueil__intro {
+	max-width: 46ch;
+	margin: 1.5rem 0 0;
+	color: var(--lf-cafe);
+	font-size: var(--lf-t-3);
+	line-height: 1.55;
+}
+
+.lf-atelier-accueil__texte .lf-section__titre {
+	max-width: none;
+}
+
+/* 10. Recettes
+   ========================================================================== */
+
+.lf-filtres {
+	margin-top: 1.75rem;
+}
+
+.lf-recettes__statut {
+	margin: 0 0 1.5rem;
+	color: var(--lf-gris);
+	font-size: var(--lf-t-1);
+}
+
+[data-lf-recettes-grille] {
+	transition: opacity 0.3s ease;
+}
+
+[data-lf-recettes-grille][aria-busy="true"] {
+	opacity: 0.4;
+}
+
+.lf-recettes__plus {
+	display: flex;
+	justify-content: center;
+	margin-top: 2.5rem;
+}
+
+/* Fiche recette ------------------------------------------------------------ */
+
+.lf-recette__tete {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+	align-items: end;
+	gap: 2rem clamp(2rem, 5vw, 5rem);
+	padding-top: clamp(1.5rem, 1rem + 2vw, 3rem);
+}
+
+.lf-recette__methodes {
+	margin-bottom: 1.25rem;
+}
+
+.lf-recette__titre {
+	margin: 0 0 1.25rem;
+	font-size: var(--lf-t-6);
+}
+
+.lf-recette__chapo {
+	max-width: 38ch;
+	margin: 0;
+	color: var(--lf-cafe);
+	font-size: var(--lf-t-3);
+	line-height: 1.5;
+}
+
+.lf-recette__image {
+	margin: 0;
+	overflow: hidden;
+	border-radius: var(--lf-rayon);
+	background: var(--lf-papier-2);
+	aspect-ratio: 3 / 2;
+}
+
+.lf-recette__image img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.lf-fiche-recette {
+	display: grid;
+	grid-template-columns: repeat(var(--lf-cases, 5), minmax(0, 1fr));
+	margin: clamp(2rem, 4vw, 3.5rem) 0;
+	border-block: 1.5px solid var(--lf-encre);
+}
+
+.lf-fiche-recette__case {
+	padding: 1.15rem 1.25rem 1.25rem;
+	border-left: 1px solid var(--lf-filet);
+}
+
+.lf-fiche-recette__case:first-child {
+	padding-left: 0;
+	border-left: 0;
+}
+
+.lf-fiche-recette dt {
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+	color: var(--lf-gris);
+	font-size: var(--lf-t-0);
+	font-weight: 600;
+}
+
+.lf-fiche-recette dt .lf-icone {
+	width: 1.1rem;
+	height: 1.1rem;
+	color: var(--lf-brique);
+}
+
+.lf-fiche-recette dd {
+	margin: 0.45rem 0 0;
+	font: 400 clamp(1.5rem, 1.2rem + 1vw, 2.125rem) / 1.05 var(--lf-serif);
+}
+
+.lf-fiche-recette__detail {
+	display: block;
+	margin-top: 0.35rem;
+	color: var(--lf-gris);
+	font: 400 var(--lf-t-0) / 1.35 var(--lf-sans);
+}
+
+.lf-recette__corps {
+	display: grid;
+	grid-template-columns: minmax(0, 40rem) minmax(0, 23rem);
+	justify-content: space-between;
+	align-items: start;
+	gap: 3rem;
+	padding-bottom: clamp(2rem, 5vw, 4rem);
+}
+
+.lf-recette__contenu > p:first-child {
+	color: var(--lf-cafe);
+	font-size: var(--lf-t-3);
+	line-height: 1.6;
+}
+
+.lf-astuce {
+	position: sticky;
+	top: calc(var(--lf-entete) + 1.5rem);
+	padding: 2.25rem 1.75rem 2rem;
+	border-radius: var(--lf-rayon);
+	background: var(--lf-papier-2);
+}
+
+.lf-astuce__titre {
+	margin: 0 0 0.75rem;
+	font: italic 400 var(--lf-t-4) / 1.1 var(--lf-serif);
+}
+
+.lf-astuce__texte {
+	margin: 0;
+	font-size: var(--lf-t-2);
+	line-height: 1.65;
+}
+
+.lf-astuce__tampon {
+	position: absolute;
+	top: -2.25rem;
+	right: -1.25rem;
+	width: 5.75rem;
+	height: auto;
+	transform: rotate(14deg);
+}
+
+.lf-recette__cafes {
+	padding-top: clamp(3rem, 6vw, 5rem);
+	border-top: 1px solid var(--lf-filet);
+}
+
+/* Titre à gauche, cartes à droite : une ou deux cartes remplissent la ligne sans laisser de vide. */
+.lf-recette__cafes > .lf-conteneur {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+	align-items: start;
+	gap: 2rem clamp(2rem, 5vw, 5rem);
+}
+
+.lf-recette__cafes .lf-section__tete {
+	grid-template-columns: minmax(0, 1fr);
+	margin: 0;
+}
+
+.lf-recette__cafes .lf-section__titre {
+	font-size: var(--lf-t-5);
+}
+
+.lf-recette__cafes ul.products {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 64rem) {
+	.lf-recette__cafes > .lf-conteneur {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+.lf-voisins {
+	padding-block: 2rem var(--lf-section);
+}
+
+.lf-voisins .nav-links {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 1.5rem;
+	border-top: 1px solid var(--lf-filet);
+}
+
+.lf-voisins a {
+	display: grid;
+	gap: 0.35rem;
+	padding-top: 1.25rem;
+	text-decoration: none;
+}
+
+.lf-voisins .nav-next {
+	text-align: right;
+}
+
+.lf-voisins__sens {
+	color: var(--lf-gris);
+	font-size: var(--lf-t-0);
+}
+
+.lf-voisins__titre {
+	font: 400 var(--lf-t-4) / 1.15 var(--lf-serif);
+}
+
+/* 11. Pages
+   ========================================================================== */
+
+/* L'atelier --------------------------------------------------------------- */
+
+.lf-atelier__tete {
+	padding-top: clamp(1.75rem, 1rem + 3vw, 3.5rem);
+}
+
+.lf-atelier__titre {
+	margin: 0;
+	font-size: var(--lf-t-hero);
+	line-height: 0.88;
+	letter-spacing: -0.03em;
+}
+
+.lf-atelier__chapo {
+	max-width: 44ch;
+	margin: 1.75rem 0 0 auto;
+	color: var(--lf-cafe);
+	font-size: clamp(1.25rem, 1rem + 0.8vw, 1.625rem);
+	line-height: 1.45;
+}
+
+.lf-atelier__illustration {
+	position: relative;
+	margin-block: clamp(2rem, 5vw, 4rem);
+}
+
+.lf-atelier__dessin {
+	display: block;
+	width: 100%;
+	max-width: 62rem;
+	height: auto;
+	margin-inline: auto;
+}
+
+.lf-atelier__badge {
+	top: auto;
+	right: 4%;
+	bottom: 8%;
+	left: auto;
+}
+
+.lf-atelier__corps {
+	display: grid;
+	grid-template-columns: minmax(0, 40rem) minmax(0, 24rem);
+	justify-content: space-between;
+	gap: 3rem;
+	padding-bottom: var(--lf-section);
+}
+
+.lf-atelier__fiche {
+	position: sticky;
+	top: calc(var(--lf-entete) + 1.5rem);
+	align-self: start;
+}
+
+.lf-atelier__fiche-titre {
+	margin: 0;
+	font-size: var(--lf-t-4);
+}
+
+.lf-atelier__fiche .lf-fiche__ligne {
+	grid-template-columns: minmax(0, 1fr);
+	gap: 0.3rem;
+}
+
+/* Résultats de recherche -------------------------------------------------- */
+
+.lf-resultats {
+	display: grid;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	border-top: 1px solid var(--lf-filet);
+}
+
+.lf-resultat {
+	position: relative;
+	display: grid;
+	grid-template-columns: 5rem minmax(0, 1fr);
+	align-items: center;
+	gap: 1.5rem;
+	padding-block: 1.25rem;
+	border-bottom: 1px solid var(--lf-filet);
+}
+
+.lf-resultat__image {
+	display: grid;
+	place-items: center;
+	overflow: hidden;
+	width: 5rem;
+	aspect-ratio: 4 / 5;
+	border-radius: 4px;
+	background: var(--lf-papier-2);
+	color: var(--lf-brique);
+}
+
+.lf-resultat__image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.lf-resultat__type {
+	margin: 0 0 0.2rem;
+	color: var(--lf-brique-fonce);
+	font-size: var(--lf-t-0);
+	font-weight: 600;
+}
+
+.lf-resultat__titre {
+	margin: 0;
+	font-size: var(--lf-t-4);
+}
+
+.lf-resultat:hover .lf-carte__lien {
+	color: var(--lf-brique-fonce);
+}
+
+.lf-resultat__extrait {
+	max-width: 70ch;
+	margin: 0.35rem 0 0;
+	color: var(--lf-cafe);
+	font-size: var(--lf-t-1);
+}
+
+.lf-vide {
+	max-width: 40rem;
+	padding: 2.5rem 0;
+}
+
+.lf-vide__titre {
+	font-size: var(--lf-t-5);
+}
+
+/* Pagination -------------------------------------------------------------- */
+
+.lf-pagination {
+	margin-top: 3rem;
+}
+
+.lf-pagination .nav-links {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 0.4rem;
+}
+
+.lf-pagination .page-numbers {
+	display: inline-grid;
+	place-items: center;
+	min-width: 2.75rem;
+	height: 2.75rem;
+	padding-inline: 0.75rem;
+	border-radius: 999px;
+	color: var(--lf-encre);
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.lf-pagination a.page-numbers:hover {
+	background: var(--lf-papier-2);
+}
+
+.lf-pagination .page-numbers.current {
+	background: var(--lf-encre);
+	color: var(--lf-papier);
+}
+
+/* 404 ---------------------------------------------------------------------- */
+
+.lf-404__grille {
+	display: grid;
+	grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+	align-items: center;
+	gap: 3rem;
+	padding-block: clamp(3rem, 8vw, 7rem) var(--lf-section);
+}
+
+.lf-404__tampon {
+	margin-bottom: 2rem;
+}
+
+.lf-404 .lf-page-tete__intro {
+	margin-bottom: 2rem;
+}
+
+.lf-404__liens {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem 2rem;
+	margin: 2rem 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.lf-404__grain {
+	display: block;
+	width: 100%;
+	max-width: 22rem;
+	height: auto;
+	margin-inline: auto;
+	animation: lf-roule 9s var(--lf-ease) infinite;
+}
+
+/* Articles et commentaires -------------------------------------------------- */
+
+.lf-article__image {
+	margin-block: 0 clamp(2rem, 4vw, 3.5rem);
+}
+
+.lf-article__image img {
+	display: block;
+	width: 100%;
+	max-height: 70vh;
+	object-fit: cover;
+	border-radius: var(--lf-rayon);
+}
+
+.lf-commentaires {
+	padding-bottom: var(--lf-section);
+}
+
+.lf-commentaires__titre {
+	font-size: var(--lf-t-4);
+}
+
+.lf-commentaires__liste {
+	padding: 0;
+	list-style: none;
+}
+
+.comment-body {
+	padding-block: 1.25rem;
+	border-bottom: 1px solid var(--lf-filet);
+}
+
+.comment-form p {
+	display: grid;
+	gap: 0.4rem;
+}
+
+.comment-form .comment-form-cookies-consent {
+	display: flex;
+	align-items: center;
+}
+
+/* Responsive
+   ========================================================================== */
+
+@media (max-width: 64rem) {
+	.lf-hero__texte {
+		grid-column: 1 / span 8;
+		grid-row: 2;
+		padding-top: 0;
+	}
+
+	.lf-hero__tampon {
+		grid-column: 9 / -1;
+		grid-row: 2;
+		align-self: center;
+		margin: 0;
+	}
+
+	.lf-hero__courbe {
+		grid-row: 3;
+	}
+
+	.lf-section__tete,
+	.lf-atelier-accueil__grille,
+	.lf-recette__tete,
+	.lf-recette__corps,
+	.lf-atelier__corps,
+	.lf-404__grille {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.lf-section__titre {
+		grid-row: auto;
+	}
+
+	.lf-astuce,
+	.lf-atelier__fiche {
+		position: relative;
+		top: auto;
+	}
+
+	.lf-recettes-accueil__grille {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.lf-carte-recette--une {
+		grid-row: auto;
+	}
+
+	.lf-fiche-recette {
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 9.5rem), 1fr));
+	}
+
+	.lf-fiche-recette__case,
+	.lf-fiche-recette__case:first-child {
+		padding: 1rem 1rem 1rem 0;
+		border-left: 0;
+		border-bottom: 1px solid var(--lf-filet);
+	}
+}
+
+@media (max-width: 52rem) {
+	.lf-etapes__courbe {
+		display: none;
+	}
+
+	.lf-etapes__liste {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 0;
+		border-top: 1px solid var(--lf-filet-sombre);
+	}
+
+	.lf-etape {
+		display: grid;
+		grid-template-columns: 6.25rem minmax(0, 1fr);
+		column-gap: 1rem;
+		padding-block: 1.5rem;
+		border-bottom: 1px solid var(--lf-filet-sombre);
+	}
+
+	.lf-etape__temp {
+		display: block;
+		grid-row: span 2;
+		margin: 0;
+		color: var(--lf-creme);
+		font: 400 2.125rem / 1 var(--lf-serif);
+	}
+}
+
+@media (max-width: 40rem) {
+	.lf-hero__titre {
+		font-size: clamp(3rem, 1rem + 15vw, 5.5rem);
+		line-height: 0.92;
+	}
+
+	.lf-hero__texte {
+		grid-column: 1 / -1;
+		grid-row: 3;
+	}
+
+	.lf-hero__tampon {
+		grid-column: 1 / -1;
+		grid-row: 2;
+		justify-self: start;
+		margin: 0.25rem 0 0 0.35rem;
+	}
+
+	.lf-hero__courbe {
+		grid-row: 4;
+	}
+
+	.lf-courbe .lf-courbe__svg--large {
+		display: none;
+	}
+
+	.lf-courbe .lf-courbe__svg--compact {
+		display: block;
+	}
+
+	.lf-courbe__svg--compact .lf-courbe__etape {
+		font-size: 23px;
+	}
+
+	.lf-courbe__svg--compact .lf-courbe__axe {
+		font-size: 19px;
+	}
+
+	.lf-courbe__svg--compact .lf-courbe__nom-phase {
+		display: none;
+	}
+
+	.lf-carte-recette--ligne {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.lf-fiche__ligne {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.lf-badge-tournant {
+		top: -2rem;
+	}
+
+	.lf-voisins .nav-links {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.lf-voisins .nav-next {
+		text-align: left;
+	}
+
+	.lf-recherche-form__bouton span {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+	}
+}
+
+/* 12. Animations
+   ==========================================================================
+   Uniquement transform et opacity. Les états initiaux ne s'appliquent qu'avec
+   JavaScript (classe .js) : sans script, tout est visible tout de suite. */
+
+@keyframes lf-defile {
+	to {
+		transform: translateX(-50%);
+	}
+}
+
+@keyframes lf-tourne {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes lf-trait {
+	0% {
+		transform: scaleX(1);
+		transform-origin: right;
+	}
+
+	45% {
+		transform: scaleX(0);
+		transform-origin: right;
+	}
+
+	46% {
+		transform: scaleX(0);
+		transform-origin: left;
+	}
+
+	100% {
+		transform: scaleX(1);
+		transform-origin: left;
+	}
+}
+
+@keyframes lf-fumee {
+	0% {
+		opacity: 0;
+		transform: translate(-10px, 26px) scale(0.35);
+	}
+
+	25% {
+		opacity: 0.95;
+	}
+
+	100% {
+		opacity: 0;
+		transform: translate(22px, -46px) scale(1.35);
+	}
+}
+
+@keyframes lf-rebond {
+	0% {
+		transform: scale(1);
+	}
+
+	40% {
+		transform: scale(1.45);
+	}
+
+	100% {
+		transform: scale(1);
+	}
+}
+
+@keyframes lf-roule {
+	0%,
+	100% {
+		transform: rotate(-8deg) translateX(-4%);
+	}
+
+	50% {
+		transform: rotate(10deg) translateX(4%);
+	}
+}
+
+/* Hero : les lignes du titre remontent, le tampon s'imprime, la courbe se dessine. */
+.js .lf-hero__ligne > span {
+	transform: translateY(105%);
+	transition: transform 1.15s var(--lf-ease-sortie);
+}
+
+.js .lf-hero__ligne:nth-child(2) > span {
+	transition-delay: 0.12s;
+}
+
+.js .lf-hero.is-pret .lf-hero__ligne > span {
+	transform: none;
+}
+
+.js .lf-hero__tampon {
+	opacity: 0;
+	transform: rotate(-5deg) scale(1.6);
+	transition: opacity 0.25s ease 0.9s, transform 0.45s var(--lf-ease-ressort) 0.9s;
+}
+
+.js .lf-hero.is-pret .lf-hero__tampon {
+	opacity: 1;
+	transform: rotate(-5deg) scale(1);
+}
+
+.js .lf-hero__texte {
+	opacity: 0;
+	transform: translateY(1.5rem);
+	transition: opacity 0.8s ease 0.45s, transform 1s var(--lf-ease-sortie) 0.45s;
+}
+
+.js .lf-hero.is-pret .lf-hero__texte {
+	opacity: 1;
+	transform: none;
+}
+
+.js [data-lf-courbe] .lf-courbe__rideau {
+	transform: scaleX(0);
+	transform-origin: 0 0;
+	transition: transform 2.6s cubic-bezier(0.45, 0.05, 0.3, 1) 0.35s;
+}
+
+.js [data-lf-courbe].is-visible .lf-courbe__rideau {
+	transform: scaleX(1);
+}
+
+.js .lf-courbe__repere,
+.js .lf-etapes__point {
+	opacity: 0;
+	transition: opacity 0.5s ease, transform 0.6s var(--lf-ease-ressort);
+	transition-delay: calc(0.35s + var(--lf-delai, 0) * 2.6s);
+}
+
+.js .lf-courbe__repere {
+	transform: translateY(8px);
+}
+
+.js .lf-etapes__point {
+	transform: scale(0.2);
+}
+
+.js [data-lf-courbe].is-visible .lf-courbe__repere,
+.js [data-lf-courbe].is-visible .lf-etapes__point {
+	opacity: 1;
+	transform: none;
+}
+
+/* Apparitions au défilement : un léger glissement, échelonné dans une même grille. */
+.js [data-lf-revele]:not([data-lf-revele="lignes"]) {
+	opacity: 0;
+	transform: translateY(2rem);
+	transition: opacity 0.9s ease, transform 1.1s var(--lf-ease-sortie);
+	transition-delay: calc(var(--lf-ordre, 0) * 0.08s);
+}
+
+.js [data-lf-revele].is-visible:not([data-lf-revele="lignes"]) {
+	opacity: 1;
+	transform: none;
+}
+
+/* Titres révélés mot à mot (les mots sont enveloppés par theme.js). Avant le découpage, le titre
+   reste invisible pour éviter un clignotement ; s'il n'est jamais découpé (erreur de script),
+   il apparaît de lui-même au bout de deux secondes. */
+.js [data-lf-revele="lignes"]:not(.is-decoupe) {
+	opacity: 0;
+	animation: lf-secours 0.01s linear 2s forwards;
+}
+
+@keyframes lf-secours {
+	to {
+		opacity: 1;
+	}
+}
+
+.lf-mot {
+	display: inline-block;
+	overflow: hidden;
+	padding-bottom: 0.12em;
+	margin-bottom: -0.12em;
+	vertical-align: top;
+}
+
+.lf-mot > span {
+	display: inline-block;
+	transform: translateY(110%);
+	transition: transform 1s var(--lf-ease-sortie);
+	transition-delay: calc(var(--lf-i, 0) * 0.05s);
+}
+
+.is-visible .lf-mot > span {
+	transform: none;
+}
+
+/* Impression : tout est visible, sans en-tête collant, panneaux ni grain. */
+@media print {
+	.js [data-lf-revele],
+	.js [data-lf-revele] *,
+	.lf-mot > span,
+	.js .lf-hero__ligne > span,
+	.js .lf-hero__texte,
+	.js .lf-hero__tampon {
+		opacity: 1 !important;
+		transform: none !important;
+	}
+
+	body::after,
+	.lf-annonce,
+	.lf-entete__actions,
+	.lf-panneau,
+	.lf-bandeau,
+	.lf-hero__ville {
+		display: none !important;
+	}
+
+	.lf-entete {
+		position: static;
+	}
+}
+
+/* 13. Mouvement réduit
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		transition-delay: 0s !important;
+	}
+
+	.lf-bandeau__piste,
+	.lf-badge-tournant,
+	.lf-fumee,
+	.lf-404__grain {
+		animation: none !important;
+	}
+
+	.lf-bandeau__piste {
+		flex-wrap: wrap;
+		width: auto;
+	}
+
+	.lf-bandeau__liste + .lf-bandeau__liste {
+		display: none;
+	}
+
+	.lf-bandeau__liste {
+		flex-wrap: wrap;
+		padding-inline: var(--lf-gouttiere);
+	}
+
+	.js .lf-hero__ligne > span,
+	.js .lf-hero__tampon,
+	.js .lf-hero__texte,
+	.js [data-lf-revele]:not([data-lf-revele="lignes"]),
+	.js .lf-courbe__repere,
+	.js .lf-etapes__point,
+	.lf-mot > span {
+		opacity: 1;
+		transform: none;
+	}
+
+	.js .lf-hero__tampon {
+		transform: rotate(-5deg);
+	}
+
+	.js [data-lf-courbe] .lf-courbe__rideau {
+		transform: none;
+	}
+}
