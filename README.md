@@ -87,6 +87,8 @@ Détail des tests et des choix techniques : [`wordpress/README.md`](wordpress/RE
 
 ## Usage de l'IA
 
+Ma démarche avec l'ia a été d'utiliser claude pour fabriquer la majeur partie de mon code en lui donnant des directives précises et un cahier des charges a suivre, Mon travail a été d'imaginer l expérience client, de tester le parcours d'achat de verifier les sotcks etc pour pouvoir faire des retours a l ia sur ce qui marche et ce qui ne marche pas, j y ai apporté également mes modifications faites a la main et j ai surtout demander a claude de m expliquer en detail mon code pour pouvoir avoir toujours la main dessus et comprendre ce que je produis , Un chef ne coupe plus forcément ses oignons, mais il doit savoir le faire : c’est pour ça que je me suis approprié le code avant de vous le présenter
+
 Ce projet a été réalisé avec l'aide de **Claude** (Anthropic), utilisé comme une équipe :
 - un cahier des charges écrit d'abord, avec des contrats figés entre le thème et les plugins ;
 - un développeur « back » (plugins, Docker, contenus) et un développeur « thème », qui travaillaient en parallèle ;
